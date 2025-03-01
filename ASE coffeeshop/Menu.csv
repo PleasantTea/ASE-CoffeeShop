@@ -1,4 +1,4 @@
-ItemID,Name,Description,Prince,Category
+ItemID,Name,Description,Price,Category
 COFFEE001,Classic Latte,Fusion of espresso with milk,24,Coffee
 COFFEE002,Oat Latte,Fusion of espresso and oat milk,21,Coffee
 COFFEE003,Americano,Refreshing black coffee,18,Coffee
