@@ -1,0 +1,28 @@
+ITEM_ID,ITEM_NAME,CATEGORY,QUANTITY_SOLD,COST,INCOME_TOTAL
+COFFEE001,Classic Latte,Coffee,2,24.0,48.0
+COFFEE002,Oat Latte,Coffee,1,21.0,21.0
+COFFEE003,Americano,Coffee,1,18.0,18.0
+COFFEE004,Cappuccino,Coffee,0,19.0,0.0
+COFFEE005,Caramel Macchiato,Coffee,2,20.0,40.0
+COFFEE006,Coconut Latte,Coffee,1,23.0,23.0
+COFFEE007,Flat White,Coffee,1,25.0,25.0
+COFFEE008,Mocha,Coffee,1,23.0,23.0
+DRINKS111,Milk,Drinks,0,10.0,0.0
+DRINKS112,Chocolate Milk,Drinks,0,15.0,0.0
+DRINKS113,Green Tea,Drinks,4,15.0,60.0
+DRINKS114,Black Tea,Drinks,1,15.0,15.0
+DRINKS115,Lemonade,Drinks,5,8.0,40.0
+DRINKS116,Orange Juice,Drinks,2,12.0,24.0
+DRINKS117,Apple Juice,Drinks,1,12.0,12.0
+DRINKS118,Soda Water,Drinks,0,8.0,0.0
+DESSERT221,Tiramisu,Dessert,2,10.0,20.0
+DESSERT222,Strawberry mousse,Dessert,0,16.0,0.0
+DESSERT223,Mango mousse,Dessert,4,15.0,60.0
+DESSERT224,Chocolate Mousse,Dessert,1,15.0,15.0
+DESSERT225,Cream Cake,Dessert,0,15.0,0.0
+DESSERT226,Cookies,Dessert,0,20.0,0.0
+DESSERT227,Basque,Dessert,0,38.0,0.0
+DESSERT228,Ice Cream,Dessert,0,15.0,0.0
+
+,,,,Total,444.0
+,,,,Total After Discount,422.0

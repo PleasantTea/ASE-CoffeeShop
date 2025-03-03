@@ -91,13 +91,12 @@ public class ReportGenerator {
     	
         try {
             // Get current timestamp for file name
-            //final SimpleDateFormat sdf = new SimpleDateFormat("year.mo.da.ho.mi.se");
         	final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             String simpleDateFormat = sdf.format(timestamp);
 
             // Define report directory path
-            String reportDirPath = System.getProperty("user.dir") + "/reports/";
+            String reportDirPath = System.getProperty("user.dir") + "/ASE-CoffeeShop/ASE coffeeshop/src/reports/";
 
             // Create report directory if it doesn't exist
             File reportDirFile = new File(reportDirPath);
