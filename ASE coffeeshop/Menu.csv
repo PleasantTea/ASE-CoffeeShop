@@ -1,0 +1,25 @@
+ItemID,Name,Description,Price,Category
+COFFEE001,Classic Latte,Fusion of espresso with milk,24,Coffee
+COFFEE002,Oat Latte,Fusion of espresso and oat milk,21,Coffee
+COFFEE003,Americano,Refreshing black coffee,18,Coffee
+COFFEE004,Cappuccino,Fusion of espresso and milk froth,19,Coffee
+COFFEE005,Caramel Macchiato,Fusion of espresso with milk and caramel,20,Coffee
+COFFEE006,Coconut Latte,Fusion of espresso and raw coconut milk,23,Coffee
+COFFEE007,Flat White,Sweet and sour white coffee,25,Coffee
+COFFEE008,Mocha,Fusion of espresso with milk and chocolate,23,Coffee
+DRINKS111,Milk,Pure fresh milk,10,Drinks
+DRINKS112,Chocolate Milk,Fusion of chocolate and fresh milk,15,Drinks
+DRINKS113,Green Tea,Slightly bitter green tea,15,Drinks
+DRINKS114,Black Tea,Aromatic red tea,15,Drinks
+DRINKS115,Lemonade,Fusion of fresh lemon and water,8,Drinks
+DRINKS116,Orange Juice,Freshly squeezed orange juice,12,Drinks
+DRINKS117,Apple Juice,Freshly squeezed apple juice,12,Drinks
+DRINKS118,Soda Water,Sparkling soda,8,Drinks
+DESSERT221,Tiramisu,Finger biscuits with cheese and cocoa powder,10,Dessert
+DESSERT222,Strawberry mousse,Fresh strawberries with light mousse,16,Dessert
+DESSERT223,Mango mousse,Fresh mango with light mousse,15,Dessert
+DESSERT224,Chocolate Mousse,Chocolate meets light mousse,15,Dessert
+DESSERT225,Cream Cake,Classic Buttercream with cake embryo,15,Dessert
+DESSERT226,Cookies,Crispy biscuits made with butter,20,Dessert
+DESSERT227,Basque,Slightly charred cheesecake,38,Dessert
+DESSERT228,Ice Cream,Cool and delicate sweets,15,Dessert
