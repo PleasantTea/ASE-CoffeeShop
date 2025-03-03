@@ -20,16 +20,20 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import main.MenuItem;
 import main.Order;
+import main.Basket;
+import main.DiscountRuler;
 
 public class main extends JFrame {
 
     // 数据管理
-    private static String menuFileName = "ASE coffeeshop/src/Menu.csv";
-    private static String ordersFileName = "ASE coffeeshop/src/Orders.csv";
+    private static String menuFileName = "ASE-CoffeeShop/ASE coffeeshop/src/Menu.csv";
+    private static String ordersFileName = "ASE-CoffeeShop/ASE coffeeshop/src/Orders.csv";
+    private static String newOrdersFileName = "ASE-CoffeeShop/ASE coffeeshop/src/newOrders.csv";
     private static MenuFileRead menuFileReader;
     private static OrdersFileRead ordersFileReader;
     private static MenuItem currentListSelection;
     private static LinkedHashMap<Integer, Order> currentOrders;
+    private static Basket basket;
 
     // GUI 组件
     private JButton buttonAdd, buttonRemove, buttonConfirm, buttonQuit, buttonCancel, buttonReport;
@@ -49,17 +53,8 @@ public class main extends JFrame {
 
         menuFileReader.readCSVAndStoreData(menuFileName);
         ordersFileReader.readCSVAndStoreData(ordersFileName);
-
-        
-
-        System.out.println("Menu items loaded:");
-        if (menuFileReader.menuItemsHashMap.isEmpty()) {    //看这里读取数据对不对
-            System.out.println("Error: No menu items loaded. Check CSV file path and format.");
-        } else {
-            for (MenuItem item : menuFileReader.menuItemsHashMap.values()) {
-                System.out.println(item);
-            }
-        }
+      
+        basket = new Basket();
 
         currentOrders = new LinkedHashMap<>();
 
@@ -157,6 +152,24 @@ public class main extends JFrame {
 		c.insets = new Insets(0, 15, 10, 0);
 		panelForm.add(total, c);
 		c.insets = new Insets(0, 0, 0, 0);
+
+        /**Add BUTTON*/
+		buttonAdd = new JButton("Add to Order");
+		c.anchor = GridBagConstraints.LINE_START;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 6;
+		panelForm.add(buttonAdd, c);
+		c.fill = GridBagConstraints.NONE;
+
+        /**REMOVE BUTTON*/
+		buttonRemove = new JButton("     Remove Item     ");
+		c.gridx = 3;
+		c.gridy = 6;
+		c.anchor = GridBagConstraints.LINE_START;
+		c.insets = new Insets(0, 15, 0, 0);
+		panelForm.add(buttonRemove, c);
+		c.insets = new Insets(0, 0, 0, 0);
 		
 		/**CANCEL BUTTON*/
 		buttonCancel = new JButton("Cancel Order");
@@ -164,7 +177,6 @@ public class main extends JFrame {
 		c.anchor = GridBagConstraints.LAST_LINE_START;
 		c.gridx = 0;
 		c.gridy = 9;
-		//c.gridwidth = 1;
 		panelForm.add(buttonCancel, c);
 		c.fill = GridBagConstraints.NONE;
 
@@ -185,23 +197,7 @@ public class main extends JFrame {
 		c.gridy = 6;
 		panelForm.add(buttonConfirm, c);
 
-		/**Add BUTTON*/
-		buttonAdd = new JButton("Add to Order");
-		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 6;
-		panelForm.add(buttonAdd, c);
-		c.fill = GridBagConstraints.NONE;
-
-		/**REMOVE BUTTON*/
-		buttonRemove = new JButton("     Remove Item     ");
-		c.gridx = 3;
-		c.gridy = 6;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.insets = new Insets(0, 15, 0, 0);
-		panelForm.add(buttonRemove, c);
-		c.insets = new Insets(0, 0, 0, 0);
+		
 		
 		/**QUIT BUTTON*/
 		buttonQuit = new JButton("   Quit   ");
@@ -213,53 +209,62 @@ public class main extends JFrame {
     }
 
     private void initBtnActions() {
+
+
         buttonAdd.addActionListener(e -> {
             MenuItem selectedProduct = productList.getSelectedValue();
             if (selectedProduct == null) {
                 JOptionPane.showMessageDialog(null, "Please select a product");
                 return;
             }
-            Order order = new Order();
-            order.setItemID(selectedProduct.getItemId());
-            order.setItemName(selectedProduct.getItemName());
-            order.setItemPrice(Math.round(selectedProduct.getPrice()));
-            order.setQuantity(1);
-            currentOrders.put(currentOrders.size() + 1, order);
-            //setDiscountAndTotal();
-            //displayBasket();
+            
+            // 添加到 Basket
+            basket.addItem(selectedProduct);
+            
+            // 更新 Order 显示
+            displayBasket();
+            setPrice();
         });
-
+        
         buttonRemove.addActionListener(e -> {
-            if (currentListSelection == null) {
+            MenuItem selectedItem = orderList.getSelectedValue();
+            if (selectedItem == null) {
                 JOptionPane.showMessageDialog(null, "Please Select an Item to Remove");
                 return;
             }
-            currentOrders.remove(currentListSelection.getItemId());
-            //setDiscountAndTotal();
-            //displayBasket();
-        });
 
+            // 从 Basket 移除
+            basket.removeItem(selectedItem);
+
+            // 更新 Order 显示
+            displayBasket();
+            setPrice();
+        });
+        
+        
         buttonConfirm.addActionListener(e -> {
-            if (!currentOrders.isEmpty()) {
-                ordersFileReader.saveNewOrdersInExistingOrders(currentOrders);
-                ordersFileReader.writeOrdersToCSV();
+            if (!basket.getItems().isEmpty()) {
+                basket.confirmOrder();
                 JOptionPane.showMessageDialog(null, "Order Confirmed");
-                currentOrders.clear();
-                //setDiscountAndTotal();
-                //displayBasket();
+                displayBasket();
+                setPrice();
+            } else {
+                JOptionPane.showMessageDialog(null, "Your basket is empty. Add items before confirming.");
             }
         });
+        
 
         buttonCancel.addActionListener(e -> {   //clear,重新计算折扣和总价,displayBasket
-            currentOrders.clear();
-            //setDiscountAndTotal();
-            //displayBasket();
+            basket.clearBasket();
+            displayBasket();
+            setPrice();
             JOptionPane.showMessageDialog(null, "Order has been successfully cancelled");
         });        
 
         buttonReport.addActionListener(e -> {
             ReportGenerator.getInstance().generateReport();
             JOptionPane.showMessageDialog(null, "Report generated successfully!");
+            
         });
 
         buttonQuit.addActionListener(new ActionListener() {
@@ -270,17 +275,45 @@ public class main extends JFrame {
         });
         
     }
+    
 
+    
     private void updateProductList(String category) {
         ArrayList<String> itemNames = menuFileReader.getItemNameListForSelectedCategory(category);
-        DefaultListModel<MenuItem> model = new DefaultListModel<>();
+        DefaultListModel<MenuItem> model = new DefaultListModel<>(); // 现在存储 MenuItem 对象
+        
         for (String name : itemNames) {
             for (MenuItem item : menuFileReader.menuItemsHashMap.values()) {
-                if (item.getItemName().equals(name)) model.addElement(item);
+                if (item.getItemName().equals(name)) {
+                    model.addElement(item); // 添加 MenuItem 对象
+                }
             }
         }
-        productList.setModel(model);
+        
+        productList.setModel(model); // JList 会调用 MenuItem 的 toString 方法
+    }
+    
+    
+    
+    private void displayBasket() {
+        ArrayList<MenuItem> itemsInBasket = basket.getItems();
+        DefaultListModel<MenuItem> model = new DefaultListModel<>(); // 让 JList 存储 MenuItem 对象
+        
+        for (MenuItem item : itemsInBasket) {
+            model.addElement(item); // 添加到模型中，JList 会自动调用 toString()
+        }
+        
+        orderList.setModel(model); // 刷新 GUI 显示
     }
 
+    private void setPrice() {
+        // 获取所有订单中的商品列表
+        ArrayList<MenuItem> itemsInBasket = basket.getItems();
+    
+        // 格式化输出
+        DecimalFormat df = new DecimalFormat("#.##");
+        discount.setText("Discount: -£" + df.format(Basket.calculateTotalPrice(itemsInBasket)-Basket.calculateDiscountedTotal(itemsInBasket)));
+        total.setText("Total: £" + df.format(Basket.calculateDiscountedTotal(itemsInBasket)));
+    }
     
 }

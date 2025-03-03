@@ -1,6 +1,5 @@
 package main;
 
-import java.util.Set;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -8,22 +7,12 @@ public class Order {
 
 	private Integer orderID;
 	private String customerID;
-	private Set<Integer> orderIDs;
 	private String itemID;
 	private String itemName;
-	private Integer itemPrice;
-	private Integer quantity;
+	private Float itemPrice;
 	private LocalDateTime currTime;
-	private String discount;
 	
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-	
-	public String getDiscount() {
-		return discount;
-	}
-	public void setDiscount(String discount) {
-		this.discount = discount;
-	}
 
 	public Integer getOrderID() {
 		return orderID;
@@ -37,13 +26,6 @@ public class Order {
 	}
 	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
-	}
-	
-	public Set<Integer> getOrderIDs() {
-		return orderIDs;
-	}
-	public void setOrderIDs(Set<Integer> orderIDs) {
-		this.orderIDs = orderIDs;
 	}
 	
 	public String getItemID() {
@@ -60,18 +42,11 @@ public class Order {
 		this.itemName = itemName;
 	}
 
-	public Integer getItemPrice() {
+	public Float getItemPrice() {
 		return itemPrice;
 	}
-	public void setItemPrice(Integer itemPrice) {
+	public void setItemPrice(Float itemPrice) {
 		this.itemPrice = itemPrice;
-	}
-	
-	public Integer getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
 	}
 	
 	public LocalDateTime getCurrTime() {
@@ -91,14 +66,12 @@ public class Order {
 	
 	@Override
 	public String toString() {
-		return "Order ID: " + orderID + ", Customer Id: " + customerID + "Order List: " + orderIDs + ", Item ID: " + itemID 
-				+ ", Item Name: " + itemName + ", Item Price: " + itemPrice + ", Quantity:  " + quantity + ", Timestamp: " 
-				+ getCurrTimeAsString();
+		return "Order ID: " + orderID + ", Customer Id: " + customerID + ", Item ID: " + itemID 
+				+ ", Item Name: " + itemName + ", Item Price: " + itemPrice +  ", Timestamp: " + getCurrTimeAsString();
 	}	
 	
 	public String toCSVString() {
-        return String.join(",", orderID.toString(), customerID, itemID, itemName, itemPrice.toString(), 
-        		quantity.toString(), getCurrTimeAsString());
-    }//
+        return String.join(",", orderID.toString(), customerID, itemID, itemName, itemPrice.toString(), getCurrTimeAsString());
+    }
 	
 }

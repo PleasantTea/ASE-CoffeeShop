@@ -16,7 +16,7 @@ public class OrdersFileRead {
 	private static final String COMMA_DELIMITER = ",";
 	
 	// Read CSV file and store data into data structure
-	public void readCSVAndStoreData(String filePath){
+	public void readCSVAndStoreData(String fileName){
 		System.out.println("Starting to read existing order CSV and store data into data structures");
 		BufferedReader br = null;
 		
@@ -24,7 +24,7 @@ public class OrdersFileRead {
 		    existingOrder = new LinkedHashMap<>();
 			
 			// Reading the csv file
-            br = new BufferedReader(new FileReader(filePath));
+            br = new BufferedReader(new FileReader(fileName));
 			
             // Use Delimiter as COMMA
             String line = "";
@@ -39,7 +39,7 @@ public class OrdersFileRead {
             	
             	String[] eachOrder = line.split(COMMA_DELIMITER);
             	
-                if(eachOrder.length >= 7 ) // 8(add discount?)
+                if(eachOrder.length >= 6 ) 
                 {
                 	// Save the order item details in Order object
                 	Order order = new Order();
@@ -47,10 +47,8 @@ public class OrdersFileRead {
                     order.setCustomerID(eachOrder[1]);
                     order.setItemID(eachOrder[2]);
                     order.setItemName(eachOrder[3]);
-                    order.setItemPrice(Integer.parseInt(eachOrder[4]));
-                    order.setQuantity(Integer.parseInt(eachOrder[5]));
-                    order.setCurrTimeFromString(eachOrder[6]);
-                    // order.setDiscount(eachOrder[7]);
+                    order.setItemPrice(Float.parseFloat(eachOrder[4]));
+                    order.setCurrTimeFromString(eachOrder[5]);
 
                     // Populate order in TreeMap with orderID as Key
                     existingOrder.put(order.getOrderID(), order);               	
@@ -104,18 +102,18 @@ public class OrdersFileRead {
 	}
 	
 	// Write order data back to CSV file
-	public void writeOrdersToCSV() {
+	public void writeOrdersToCSV(String fileName) {
         BufferedWriter writer = null;
 
         try {
-            writer = new BufferedWriter(new FileWriter("ASE coffeeshop/src/newOrders.csv"));
+            writer = new BufferedWriter(new FileWriter(fileName));
             // Write into header
-            writer.write("OrderID,CustomerID,ItemID,ItemName,ItemPrice,Quantity,Timestamp");  // Discount?
+            writer.write("OrderID,CustomerID,ItemID,ItemName,ItemPrice,Timestamp");
             writer.newLine();
 
             // Write into data
             for (Order order : existingOrder.values()) {
-                writer.write(order.toCSVString());  // Discount?
+                writer.write(order.toCSVString()); 
                 writer.newLine();
             }
             

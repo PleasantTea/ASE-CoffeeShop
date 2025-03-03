@@ -7,26 +7,13 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;//
+import java.util.Map;
 
 import fileRead.MenuFileRead;
 import fileRead.OrdersFileRead;
-import main.DiscountRuler;
 
 public class ReportGenerator {
-	public static void main(String[] args) {
-		MenuFileRead menuReader = new MenuFileRead();
-        menuReader.readCSVAndStoreData("ASE coffeeshop/src/Menu.csv");
-        
-		OrdersFileRead ordersFileRead = new OrdersFileRead();
-	    ordersFileRead.readCSVAndStoreData("ASE coffeeshop/src/Orders.csv");
-		
-	    ReportGenerator report = new ReportGenerator();
-		report.generateReport();
-	}
-
     // Singleton instance
     private static ReportGenerator instance = new ReportGenerator();
 
@@ -43,9 +30,6 @@ public class ReportGenerator {
     private static final String NEW_LINE_SEPARATOR = "\n";
     private FileWriter fileWriter = null;
     private static final String FILE_HEADER = "ITEM_ID,ITEM_NAME,CATEGORY,QUANTITY_SOLD,COST,INCOME_TOTAL";
-
-    // Create an instance of DiscountRuler for discount calculation
-    private DiscountRuler discountRuler = new DiscountRuler();
 
     // Generate complete report including total income and discount
     public void generateReport() {
@@ -76,7 +60,7 @@ public class ReportGenerator {
             // Calculate quantity sold for each item
             for (Order existingOrderEntry : OrdersFileRead.existingOrder.values()) {
                 if (itemIDQuantitySoldMap != null && menuItemEntry.getKey().equals(existingOrderEntry.getItemID())) {
-                    Integer quantity = existingOrderEntry.getQuantity();
+                    Integer quantity = 1;
                     Integer previousQuantity = itemIDQuantitySoldMap.get(existingOrderEntry.getItemID());
 
                     if (previousQuantity != null) {
@@ -104,6 +88,7 @@ public class ReportGenerator {
 
     // Generate CSV file and calculate totals
     private void generateCsvReport(List<ArrayList<String>> reportItemsList) {
+    	
         try {
             // Get current timestamp for file name
             //final SimpleDateFormat sdf = new SimpleDateFormat("year.mo.da.ho.mi.se");
@@ -128,8 +113,8 @@ public class ReportGenerator {
             fileWriter.append(FILE_HEADER);
             fileWriter.append(NEW_LINE_SEPARATOR);
 
-            Double totalWithoutDiscount = 0.0;
-            Double totalIncomePerItem = 0.0;
+            Float totalWithoutDiscount = 0f;
+            Float totalIncomePerItem = 0f;
 
             // Iterate through the report items and write data to CSV
             for (ArrayList<String> itemList : reportItemsList) {                
@@ -137,7 +122,7 @@ public class ReportGenerator {
                 String itemName = itemList.get(1);  // ITEM_NAME
                 String category = itemList.get(2);  // CATEGORY
                 Integer quantitySold = "null".equals(itemList.get(3)) ? 0 : Integer.parseInt(itemList.get(3));//QUANTITY_SOLD
-                Double itemPrice = Double.parseDouble(itemList.get(4));
+                Float itemPrice = Float.parseFloat(itemList.get(4));
                 totalIncomePerItem = quantitySold * itemPrice;//COST
 
                 // Write row data to CSV
@@ -162,24 +147,52 @@ public class ReportGenerator {
             fileWriter.append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER);
             fileWriter.append("Total").append(COMMA_DELIMITER).append(totalWithoutDiscount.toString());
             fileWriter.append(NEW_LINE_SEPARATOR);
-            
-            Double finalTotal = totalWithoutDiscount;
+  
+
+
+         // 创建一个 Map，用于存储每个客户的订单
+            Map<String, ArrayList<MenuItem>> customerOrdersMap = new HashMap<>();
+
+            // 遍历 existingOrder（假设每个订单中的客户 ID 是 String 类型）
+            for (Map.Entry<Integer, Order> entry : OrdersFileRead.existingOrder.entrySet()) {
+                Order order = entry.getValue();  // 获取当前订单
+
+                String customerId = order.getCustomerID();  // 获取当前订单的客户 ID
+
+                // 如果客户的订单列表不存在，则创建一个新的 ArrayList
+                if (!customerOrdersMap.containsKey(customerId)) {
+                    customerOrdersMap.put(customerId, new ArrayList<>());
+                }
+
+                // 将当前订单添加到该客户对应的订单列表中
+                for (Map.Entry<String, MenuItem> menuItemEntry : MenuFileRead.menuItemsHashMap.entrySet()) {               
+                    MenuItem menuItem = menuItemEntry.getValue();
+                    
+                    if (menuItem.getItemId().equals(order.getItemID())) {
+                    	customerOrdersMap.get(customerId).add(menuItem);
+                    }       
+                }
+            }
+
+            // 然后你可以遍历 customerOrdersMap 来计算每个客户的折扣后价格
+            Float total = 0f;
+
+            for (Map.Entry<String, ArrayList<MenuItem>> entry : customerOrdersMap.entrySet()) {              
+                ArrayList<MenuItem> menuItem = entry.getValue();  
+                
+                // 计算折扣后的总价格
+                Float amountAfter = Basket.calculateDiscountedTotal(menuItem);
+                total = total + amountAfter;  // 累加所有客户的折扣后总价格
+            }
+
+
+        
+
+            // 写入最终折扣后价格
             fileWriter.append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER);
-            fileWriter.append("Total After Discount").append(COMMA_DELIMITER).append(finalTotal.toString());
-            
-            
-/*
-            // Calculate and write discount using DiscountRuler
-            Double totalDiscount = discountRuler.calculateDiscount(totalWithoutDiscount);
-            fileWriter.append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER);
-            fileWriter.append("Total Discount").append(COMMA_DELIMITER).append(totalDiscount.toString());
+            fileWriter.append("Total After Discount").append(COMMA_DELIMITER).append(total.toString());
             fileWriter.append(NEW_LINE_SEPARATOR);
 
-            // Write final total after discount
-            Double finalTotal = totalWithoutDiscount - totalDiscount;
-            fileWriter.append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER);
-            fileWriter.append("Total After Discount").append(COMMA_DELIMITER).append(finalTotal.toString());
-*/
         } catch (IOException e1) {
             e1.printStackTrace();
         } finally {
@@ -193,5 +206,6 @@ public class ReportGenerator {
                 e.printStackTrace();
             }
         }
+     
     }
 }

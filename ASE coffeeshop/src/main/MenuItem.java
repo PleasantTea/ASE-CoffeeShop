@@ -38,8 +38,12 @@ public class MenuItem {
     public void setDescription(String description) {
         this.description = description;
     }
-    public String toString() {
+    /*public String toString() {
 		return "Item ID: " + itemId + ", Item Name: " + itemName + ", Price:  " + price + ", Item Category:  " + category + ", Item Description: "+ description;
-	}//
+	}*/
+    public String toString() {
+		return itemName + "        " + price;
+		//return String.format("%-30s %6.2f", itemName, price);
+	}
     
 }
