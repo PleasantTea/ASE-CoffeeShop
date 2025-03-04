@@ -14,11 +14,8 @@ import fileRead.MenuFileRead;
 import fileRead.OrdersFileRead;
 
 public class ReportGenerator {
-    // Singleton instance
-    private static ReportGenerator instance = new ReportGenerator();
-
-    // Private constructor
-    private ReportGenerator() { }
+    private static ReportGenerator instance = new ReportGenerator();   // Singleton instance
+    private ReportGenerator() { }   // Private constructor
 
     // Get instance method
     public static ReportGenerator getInstance() {
@@ -40,22 +37,15 @@ public class ReportGenerator {
         // Loop through menu items to generate the report
         for (Map.Entry<String, MenuItem> menuItemEntry : MenuFileRead.menuItemsHashMap.entrySet()) {
         	String itemId = menuItemEntry.getKey();  
-            MenuItem menuItem = menuItemEntry.getValue();  
-
+            MenuItem menuItem = menuItemEntry.getValue();
             String name = menuItem.getItemName();  
             String category = menuItem.getCategory();  
             Float cost = menuItem.getPrice();  
           
             reportItems = new ArrayList<>();
-            
-            // Item ID
-            reportItems.add(itemId);
-            
-            //Name
-            reportItems.add(name);
-            
-            // Category
-            reportItems.add(category);
+            reportItems.add(itemId);    // Item ID
+            reportItems.add(name);      //Name
+            reportItems.add(category);  // Category
 
             // Calculate quantity sold for each item
             for (Order existingOrderEntry : OrdersFileRead.existingOrder.values()) {
@@ -70,25 +60,18 @@ public class ReportGenerator {
                     }
                 }
             }
-
             // Quantity Sold
             Integer quantitySold = itemIDQuantitySoldMap.get(itemId);
             reportItems.add(String.valueOf(quantitySold));
-        
-      
-            // Cost
-            reportItems.add(cost.toString());
-
+            reportItems.add(cost.toString());     // Cost
             reportItemsList.add(reportItems);
         }
-
-        // Generate CSV report
-        generateCsvReport(reportItemsList);
+        generateCsvReport(reportItemsList);      // Generate CSV report
     }
 
     // Generate CSV file and calculate totals
     private void generateCsvReport(List<ArrayList<String>> reportItemsList) {
-    	
+    	 
         try {
             // Get current timestamp for file name
         	final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
@@ -96,7 +79,7 @@ public class ReportGenerator {
             String simpleDateFormat = sdf.format(timestamp);
 
             // Define report directory path
-            String reportDirPath = System.getProperty("user.dir") + "/ASE-CoffeeShop/ASE coffeeshop/src/reports/";
+            String reportDirPath = System.getProperty("user.dir") + "/reports/";
 
             // Create report directory if it doesn't exist
             File reportDirFile = new File(reportDirPath);
@@ -146,48 +129,39 @@ public class ReportGenerator {
             fileWriter.append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER);
             fileWriter.append("Total").append(COMMA_DELIMITER).append(totalWithoutDiscount.toString());
             fileWriter.append(NEW_LINE_SEPARATOR);
-  
+            
 
-
-         // 创建一个 Map，用于存储每个客户的订单
+            // Create a Map to store each customer's order
             Map<String, ArrayList<MenuItem>> customerOrdersMap = new HashMap<>();
 
-            // 遍历 existingOrder（假设每个订单中的客户 ID 是 String 类型）
+            // Iterate over existingOrder (the customer ID in each order is of type String)
             for (Map.Entry<Integer, Order> entry : OrdersFileRead.existingOrder.entrySet()) {
-                Order order = entry.getValue();  // 获取当前订单
+                Order order = entry.getValue();  // Get current order
+                String customerId = order.getCustomerID();  // Get the customer ID of the current order
 
-                String customerId = order.getCustomerID();  // 获取当前订单的客户 ID
-
-                // 如果客户的订单列表不存在，则创建一个新的 ArrayList
+                // If the customer's order list does not exist, create a new ArrayList
                 if (!customerOrdersMap.containsKey(customerId)) {
                     customerOrdersMap.put(customerId, new ArrayList<>());
                 }
 
-                // 将当前订单添加到该客户对应的订单列表中
+                // Add the current order to the list of orders corresponding to this customer
                 for (Map.Entry<String, MenuItem> menuItemEntry : MenuFileRead.menuItemsHashMap.entrySet()) {               
                     MenuItem menuItem = menuItemEntry.getValue();
-                    
                     if (menuItem.getItemId().equals(order.getItemID())) {
                     	customerOrdersMap.get(customerId).add(menuItem);
                     }       
                 }
             }
 
-            // 然后你可以遍历 customerOrdersMap 来计算每个客户的折扣后价格
+            // Iterate over customerOrdersMap to calculate the discounted price for each customer.
             Float total = 0f;
-
             for (Map.Entry<String, ArrayList<MenuItem>> entry : customerOrdersMap.entrySet()) {              
                 ArrayList<MenuItem> menuItem = entry.getValue();  
-                
-                // 计算折扣后的总价格
-                Float amountAfter = Basket.calculateDiscountedTotal(menuItem);
-                total = total + amountAfter;  // 累加所有客户的折扣后总价格
+                Float amountAfter = Basket.calculateDiscountedTotal(menuItem);  // Calculate total price after discount
+                total = total + amountAfter;  // Total price after accumulating discounts for all customers
             }
 
-
-        
-
-            // 写入最终折扣后价格
+            // Write the final discounted price
             fileWriter.append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER).append(COMMA_DELIMITER);
             fileWriter.append("Total After Discount").append(COMMA_DELIMITER).append(total.toString());
             fileWriter.append(NEW_LINE_SEPARATOR);
