@@ -6,29 +6,23 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-
+import exception.InvalidOrdersFileReadException;
 import main.Order;
 
 
 public class OrdersFileRead {
-
 	public static LinkedHashMap<Integer, Order> existingOrder;
 	private static final String COMMA_DELIMITER = ",";
 	
 	// Read CSV file and store data into data structure
-	public void readCSVAndStoreData(String fileName){
+	public void readCSVAndStoreData(String fileName) throws InvalidOrdersFileReadException{
 		System.out.println("Starting to read existing order CSV and store data into data structures");
 		BufferedReader br = null;
 		
 		try {
 		    existingOrder = new LinkedHashMap<>();
-			
-			// Reading the csv file
-            br = new BufferedReader(new FileReader(fileName));
-			
-            // Use Delimiter as COMMA
-            String line = "";
-            
+            br = new BufferedReader(new FileReader(fileName));   // Reading the csv file
+            String line = "";   // Use Delimiter as COMMA
             // Read to skip the header
             if(br!=null) {
             	br.readLine();
@@ -36,29 +30,62 @@ public class OrdersFileRead {
             
             // Reading from the second line
             while ((line = br.readLine()) != null){
-            	
-            	String[] eachOrder = line.split(COMMA_DELIMITER);
-            	
-                if(eachOrder.length >= 6 ) 
-                {
-                	// Save the order item details in Order object
-                	Order order = new Order();
-                	order.setOrderID(Integer.parseInt(eachOrder[0]));
-                    order.setCustomerID(eachOrder[1]);
-                    order.setItemID(eachOrder[2]);
-                    order.setItemName(eachOrder[3]);
-                    order.setItemPrice(Float.parseFloat(eachOrder[4]));
-                    order.setCurrTimeFromString(eachOrder[5]);
-
-                    // Populate order in TreeMap with orderID as Key
-                    existingOrder.put(order.getOrderID(), order);               	
+            	if (line.trim().isEmpty() || line.replaceAll(",", "").trim().isEmpty()) {
+                    continue;   // Skip completely empty lines (including the form ‘,,,,,’)
                 }
+            	String[] eachOrder = line.split(COMMA_DELIMITER);
+            	// Verify data integrity
+                if (eachOrder.length < 6) { 
+                    throw new InvalidOrdersFileReadException("Invalid row: missing columns in CSV file. Row content: " + line);
+                }
+                String orderIdStr = eachOrder[0].trim();
+                String customerId = eachOrder[1].trim();
+                String itemId = eachOrder[2].trim();
+                String itemName = eachOrder[3].trim();
+                String itemPriceStr = eachOrder[4].trim();
+                String timestamp = eachOrder[5].trim();
+                
+                // Check Order ID
+                int orderId;
+                try {
+                    orderId = Integer.parseInt(orderIdStr);
+                } catch (NumberFormatException e) {
+                    throw new InvalidOrdersFileReadException("Invalid Order ID format: " + orderIdStr, e);
+                }
+                // Verify Customer ID and Item ID
+                if (customerId.isEmpty() || itemId.isEmpty()) {
+                    throw new InvalidOrdersFileReadException("Missing Customer ID or Item ID for Order ID: " + orderId);
+                }
+                // Calibration Item Price
+                float itemPrice;
+                try {
+                    itemPrice = Float.parseFloat(itemPriceStr);
+                    if (itemPrice < 0) {
+                        throw new InvalidOrdersFileReadException("Invalid price for item: " + itemName);
+                    }
+                } catch (NumberFormatException e) {
+                    throw new InvalidOrdersFileReadException("Invalid price format for item: " + itemName, e);
+                }
+                // Checksum timestamp (you can check the format with a regular expression)
+                if (timestamp.isEmpty()) {
+                    throw new InvalidOrdersFileReadException("Missing timestamp for order ID: " + orderId);
+                }
+                // Create Order object and store it in HashMap
+                Order order = new Order();
+                order.setOrderID(orderId);
+                order.setCustomerID(customerId);
+                order.setItemID(itemId);
+                order.setItemName(itemName);
+                order.setItemPrice(itemPrice);
+                order.setCurrTimeFromString(timestamp);
+
+                existingOrder.put(orderId, order);
             }
-            
             System.out.println("Completed Reading and Storing Existing Order CSV data into Data Structures");
 	    }
-        catch(Exception ee){
-            ee.printStackTrace();
+        catch(IOException ee){
+            //ee.printStackTrace();
+            throw new InvalidOrdersFileReadException("Error reading the CSV file: " + fileName, ee);
         }
         finally
         {
@@ -104,7 +131,6 @@ public class OrdersFileRead {
 	// Write order data back to CSV file
 	public void writeOrdersToCSV(String fileName) {
         BufferedWriter writer = null;
-
         try {
             writer = new BufferedWriter(new FileWriter(fileName));
             // Write into header
@@ -116,9 +142,7 @@ public class OrdersFileRead {
                 writer.write(order.toCSVString()); 
                 writer.newLine();
             }
-            
             System.out.println("New orders saved successfully!");
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
