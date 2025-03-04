@@ -57,7 +57,7 @@ public class Basket {
 		for (MenuItem menuItem: itemList) {
 			Float price = menuItem.getPrice();
 	        if (price < 0) {
-	            throw new IllegalArgumentException("The product price cannot be negative: " + menuItem.getItemName());
+	            throw new IllegalArgumentException("The item price cannot be negative: " + menuItem.getItemName());
 	        }
 	        total += price;
 		}
@@ -68,7 +68,7 @@ public class Basket {
 	// Confirm order: Convert the items in the shopping cart into an order and store it in existingOrder
     public void confirmOrder() {
         if (menuItems.isEmpty()) {
-            System.out.println("The shopping cart is empty, unable to submit order!");
+            System.out.println("The shopping basket is empty, unable to submit order!");
             return;
         }
 
@@ -109,7 +109,7 @@ public class Basket {
         String newOrdersFileName = "ASE-CoffeeShop/ASE coffeeshop/src/newOrders.csv";
         ordersFileRead.writeOrdersToCSV(newOrdersFileName);
 
-        System.out.println("The order has been confirmed and saved!");
+        System.out.println("The new order has been confirmed and saved!");
     }
 }
 
