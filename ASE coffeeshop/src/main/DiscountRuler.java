@@ -72,6 +72,7 @@ public class DiscountRuler {
 	   * This method checks if Discount 1 can be applied.
 	   * Condition: Order Amount is > 100
 	   * else there is no discount so return the same amount 
+           * @param: amount 
 	   * @return: bill Amount if no discount, BillAmount - 10 if otherwise
 	   */
 	 
@@ -92,6 +93,7 @@ public class DiscountRuler {
 	   * This method checks if Discount 2 can be applied...It checks below conditions
 	   * 1) Size of order is 3 or more ...so that all categories applies
 	   * 2) All three categories are present in the order
+           * @param: CustomerOrder
 	   * @return : true if discount 2 is applied , false otherwise
 	   */
 	  
