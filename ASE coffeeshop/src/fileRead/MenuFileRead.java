@@ -4,16 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;//
-
-//import org.apache.commons.logging.Log;
-//import org.apache.commons.logging.LogFactory;
-
-import view.CoffeeShopGUI;
+import java.util.LinkedHashMap;
+import exception.InvalidMenuFileReadException;
 import main.MenuItem;
 
 public class MenuFileRead {
@@ -23,42 +16,74 @@ public class MenuFileRead {
 	//Delimiters used in the CSV file
 	private static final String COMMA_DELIMITER = ",";
 	
-	public  void readCSVAndStoreData(String filePath){
+	public  void readCSVAndStoreData(String fileName) throws InvalidMenuFileReadException {
 		BufferedReader br = null;
 		
 		try {
 				//Reading the csv file
 				menuItemsHashMap = new LinkedHashMap<>();
-	            br = new BufferedReader(new FileReader(filePath));
+	            br = new BufferedReader(new FileReader(fileName));
 	            //Use Delimiter as COMMA
 	            String line = "";
 	            //Read to skip the header
 	            if(br!=null) {
-	            	br.readLine();	
+	            	br.readLine();
 	            }
 	            
 	            //Reading from the second line
 	            while ((line = br.readLine()) != null){
 	            	
 	            	String[] menuDetails = line.split(COMMA_DELIMITER);
-	                if(menuDetails.length > 0 )
-	                {
-	                	// Create Menu object and set fields
-	                    MenuItem item = new MenuItem();
-	                    item.setItemId(menuDetails[0]);      // Set Item ID
-	                    item.setItemName(menuDetails[1]);   // Set Item Name
-	                    item.setPrice(Float.parseFloat(menuDetails[2]));  // Set Price
-	                    item.setCategory(menuDetails[3]);   // Set Category
-	                    item.setDescription(menuDetails[4]); // Set Item Description
-	                	
-	                	// Stored in HashMap, Item ID as key
-	                    menuItemsHashMap.put(item.getItemId(), item);
+	            	
+	            	// Checking data integrity
+	                if (menuDetails.length < 5) {
+	                    throw new InvalidMenuFileReadException("Invalid row: missing columns in CSV file.");
 	                }
+	                String itemId = menuDetails[0].trim();
+	                String itemName = menuDetails[1].trim();
+	                String priceStr = menuDetails[2].trim();
+	                String category = menuDetails[3].trim();
+	                String description = menuDetails[4].trim();
+	                
+	                // Verify Item ID
+	                if (itemId.isEmpty()) {
+	                    throw new InvalidMenuFileReadException("Invalid Menu Item: Missing Item ID.");
+	                }
+	                
+	                // Calibration Price
+	                float price;
+	                try {
+	                    price = Float.parseFloat(priceStr);
+	                    if (price < 0) {
+	                        throw new InvalidMenuFileReadException("Invalid price for item: " + itemName);
+	                    }
+	                } catch (NumberFormatException e) {
+	                    throw new InvalidMenuFileReadException("Invalid price format for item: " + itemName, e);
+	                }
+
+	                // Check Type & Name
+	                if (itemName.isEmpty() || category.isEmpty()) {
+	                    throw new InvalidMenuFileReadException("Invalid Menu Item: Item Name or Category missing.");
+	                }
+	          
+            	
+                	// Stored in HashMap, Item ID as key
+	                // Create Menu object and set fields
+                    //menuItemsHashMap.put(item.getItemId(), item);
+	                MenuItem item = new MenuItem();
+	                item.setItemId(itemId);             // Set Item ID
+	                item.setItemName(itemName);	        // Set Item Name
+	                item.setPrice(price);               // Set Price
+	                item.setCategory(category);         // Set Category
+	                item.setDescription(description);   // Set Item Description
+
+	                menuItemsHashMap.put(itemId, item);
 	            } 
 	    }
-        catch(Exception ee)
+        catch(IOException ee)
         {
-            ee.printStackTrace();
+            //ee.printStackTrace();
+        	throw new InvalidMenuFileReadException("Error reading the CSV file: " + fileName, ee);
         }
         finally
         {
@@ -97,7 +122,6 @@ public class MenuFileRead {
                 listOfItems.add(item2.getItemName());
             }
         }
-		
 		return listOfItems;
 	}
 	 /**
@@ -129,6 +153,4 @@ public class MenuFileRead {
         }
 	    return ""; // If no match is found, the empty string is returned.
 	}
-	
-
 }
