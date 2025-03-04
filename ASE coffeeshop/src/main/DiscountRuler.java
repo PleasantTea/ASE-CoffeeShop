@@ -16,7 +16,8 @@ public class DiscountRuler {
 	  public Float applyDiscounts(Float billAmount, ArrayList<MenuItem> customerOrder) {
 		  	
 		  	Float amountAfterDiscount1 = (float) 0;
-		  	
+		  	totalDiscount = (float)0;
+		  
 		  	//Check if discount 1 can be applied
 		  	amountAfterDiscount1 = calculateDiscount1(billAmount);
 		  			  	
