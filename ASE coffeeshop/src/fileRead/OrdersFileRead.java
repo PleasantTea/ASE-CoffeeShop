@@ -75,11 +75,11 @@ public class OrdersFileRead {
                     throw new InvalidOrdersFileReadException("Invalid price format for item: " + itemPriceStr, e);
                 }
                 
-                // Checksum timestamp (check the format with a regular expression)
+                // Checksum timestamp: check the format with a regular expression
                 if (timestamp.isEmpty() || timestamp.equals("0") || !timestamp.matches("^\\d{4}/\\d{1,2}/\\d{1,2} \\d{2}:\\d{2}:\\d{2}$")){
                     throw new InvalidOrdersFileReadException("Invalid timestamp in Order Item(corresponding orderIdStr) -> " + orderIdStr);
                 }
-                // Create Order object and store it in HashMap
+                // Create new Order object and store it in HashMap
                 Order order = new Order();
                 order.setOrderID(orderId);
                 order.setCustomerID(customerId);
@@ -93,7 +93,7 @@ public class OrdersFileRead {
             System.out.println("Completed Reading and Storing Existing Order CSV data into Data Structures");
 	    }
         catch(IOException ee){
-        	// Catch IO-related exceptions and throw custom exceptions.
+            // Catch IO-related exceptions and throw custom exceptions.
             throw new InvalidOrdersFileReadException("Error reading the CSV file: " + fileName, ee);
         }
         finally{
@@ -127,9 +127,9 @@ public class OrdersFileRead {
 	// Get the latest customer number
 	public static Integer getLastCustomerNumber() {
 	    return existingOrder.values().stream()         // Obtain all existing orders
-	             .map(Order::getCustomerID)			   // Get all customer IDs in the current
+	             .map(Order::getCustomerID)	           // Get all customer IDs in the current
 	             .map(id -> id.replaceAll("\\D", ""))  // Remove non numeric characters "CUS1" -> "   1"
-	             .filter(id -> !id.isEmpty())          // Filter out empty strings "1"
+	             .filter(id -> !id.isEmpty())          // Filter out empty strings ->"1"
 	             .map(Integer::parseInt)               // Convert the remaining numerical part to an integer
 	             .max(Integer::compareTo)              // Find the largest customer ID
 	             .orElse(null);                        // If the flow is empty, return null
