@@ -13,7 +13,7 @@ import main.MenuItem;
 
 public class TestDiscountRuler {
 
-    DiscountRuler discountRuler = new DiscountRuler();
+    private DiscountRuler discountRuler = new DiscountRuler();
     
 
     @Test
