@@ -93,10 +93,12 @@ public class OrdersFileRead {
             System.out.println("Completed Reading and Storing Existing Order CSV data into Data Structures");
 	    }
         catch(IOException ee){
+        	// Catch IO-related exceptions and throw custom exceptions.
             throw new InvalidOrdersFileReadException("Error reading the CSV file: " + fileName, ee);
         }
         finally{
             try{
+            	// Close the BufferedReader to free up resources.
                 if(br!= null) {
                 	br.close();
                 }
