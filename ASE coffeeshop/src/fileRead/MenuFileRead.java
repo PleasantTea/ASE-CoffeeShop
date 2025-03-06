@@ -42,7 +42,7 @@ public class MenuFileRead {
             	
             	// Checking data integrity
                 if (menuDetails.length < 5) {
-                    throw new InvalidMenuFileReadException("Invalid row: missing columns in CSV file.");
+                    throw new InvalidMenuFileReadException("Invalid row, missing columns in CSV file.");
                 }
                 // Get the individual fields and remove the first and last spaces
                 String itemId = menuDetails[0].trim();
