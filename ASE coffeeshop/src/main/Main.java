@@ -9,11 +9,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.HashSet;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -21,22 +18,18 @@ import javax.swing.event.ListSelectionListener;
 
 import exception.InvalidMenuFileReadException;
 import exception.InvalidOrdersFileReadException;
-import main.MenuItem;
-import main.Order;
-import main.Basket;
-import main.DiscountRuler;
 
 public class Main extends JFrame {
 
     // Data management
-    private static String menuFileName = "ASE-CoffeeShop/ASE coffeeshop/src/Menu.csv";
-    private static String ordersFileName = "ASE-CoffeeShop/ASE coffeeshop/src/Orders.csv";
-    private static String newOrdersFileName = "ASE-CoffeeShop/ASE coffeeshop/src/newOrders.csv";
+    private static String menuFileName = "ASE coffeeshop/src/Menu.csv";
+    private static String ordersFileName = "ASE coffeeshop/src/Orders.csv";
+    private static String newOrdersFileName = "ASE coffeeshop/src/newOrders.csv";
     private static MenuFileRead menuFileReader;
     private static OrdersFileRead ordersFileReader;
     private static MenuItem currentListSelection;
-    private static LinkedHashMap<Integer, Order> currentOrders;
     private static Basket basket;
+    private boolean isReportGenerated = false;
 
     // GUI components
     private JButton buttonAdd, buttonRemove, buttonConfirm, buttonQuit, buttonCancel, buttonReport;
@@ -58,7 +51,6 @@ public class Main extends JFrame {
         ordersFileReader.readCSVAndStoreData(ordersFileName);
       
         basket = new Basket();
-        currentOrders = new LinkedHashMap<>();
 
         SwingUtilities.invokeLater(() -> new Main().setVisible(true));
     }
@@ -251,13 +243,20 @@ public class Main extends JFrame {
 
         buttonReport.addActionListener(e -> {
             ReportGenerator.getInstance().generateReport();
+            isReportGenerated = true; 
             JOptionPane.showMessageDialog(null, "Report generated successfully!");
         });
 
         buttonQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Exit the program 
+                // Check if the report has been generated
+                if (!isReportGenerated) {
+                    // If the report is not generated, prompt the user
+                    JOptionPane.showMessageDialog(null, "Report has not been generated yet. Please generate the report before quitting.");
+                } else {
+                    System.exit(0);
+                }
             }
         });
         
