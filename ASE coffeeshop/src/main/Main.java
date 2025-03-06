@@ -62,7 +62,7 @@ public class Main extends JFrame {
 
         SwingUtilities.invokeLater(() -> new Main().setVisible(true));
     }
-
+    
     public Main() {
         createView();
         initBtnActions();
@@ -79,7 +79,7 @@ public class Main extends JFrame {
         getContentPane().add(panelMain);
 
         JPanel panelForm = new JPanel(new GridBagLayout());
-        GridBagConstraints c = new GridBagConstraints();
+        GridBagConstraints p = new GridBagConstraints();
         panelMain.add(panelForm);
 
         /** Menu Panel */
@@ -87,13 +87,13 @@ public class Main extends JFrame {
         menuPanel.setPreferredSize(new Dimension(275, 275));
         menuPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Menu",
                 TitledBorder.LEFT, TitledBorder.TOP));
-        c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(0, 0, 10, 0);
-        c.gridheight = 6;
-        c.gridx = 0;
-        c.gridy = 0;
-        panelForm.add(menuPanel, c);
-        c.insets = new Insets(0, 0, 0, 0);
+        p.anchor = GridBagConstraints.LINE_START;
+        p.insets = new Insets(0, 0, 10, 0);
+        p.gridheight = 6;
+        p.gridx = 0;
+        p.gridy = 0;
+        panelForm.add(menuPanel, p);
+        p.insets = new Insets(0, 0, 0, 0);
 
         // Category button
         foodButton = new JButton("Coffee");
@@ -129,81 +129,81 @@ public class Main extends JFrame {
         orderPane.setPreferredSize(new Dimension(300, 200));
         orderPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Order",
                 TitledBorder.LEFT, TitledBorder.TOP));
-        c.anchor = GridBagConstraints.PAGE_START;
-        c.insets = new Insets(0, 15, 0, 0);
-        c.gridheight = 3;
-        c.gridx = 3;
-        c.gridy = 0;
-        panelForm.add(orderPane, c);
-        c.insets = new Insets(0, 0, 0, 0);
+        p.anchor = GridBagConstraints.PAGE_START;
+        p.insets = new Insets(0, 15, 0, 0);
+        p.gridheight = 3;
+        p.gridx = 3;
+        p.gridy = 0;
+        panelForm.add(orderPane, p);
+        p.insets = new Insets(0, 0, 0, 0);
 
         /**DISCOUNT JLABLE*/
 		discount = new JLabel("Discounts: ");
-		c.gridx = 3;
-		c.gridy = 3;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.insets = new Insets(0, 15, 10, 0);
-		panelForm.add(discount, c);
-		c.insets = new Insets(0, 0, 0, 0);
+		p.gridx = 3;
+		p.gridy = 3;
+		p.anchor = GridBagConstraints.LINE_START;
+		p.insets = new Insets(0, 15, 10, 0);
+		panelForm.add(discount, p);
+		p.insets = new Insets(0, 0, 0, 0);
 		
 		/**TOTAL JLABLE*/
 		total = new JLabel("Total: ");
-		c.gridx = 3;
-		c.gridy = 3;
-		c.anchor = GridBagConstraints.LAST_LINE_START;
-		c.insets = new Insets(0, 15, 10, 0);
-		panelForm.add(total, c);
-		c.insets = new Insets(0, 0, 0, 0);
+		p.gridx = 3;
+		p.gridy = 3;
+		p.anchor = GridBagConstraints.LAST_LINE_START;
+		p.insets = new Insets(0, 15, 10, 0);
+		panelForm.add(total, p);
+		p.insets = new Insets(0, 0, 0, 0);
 
         /**Add BUTTON*/
 		buttonAdd = new JButton("Add to Order");
-		c.anchor = GridBagConstraints.LINE_START;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 6;
-		panelForm.add(buttonAdd, c);
-		c.fill = GridBagConstraints.NONE;
+		p.anchor = GridBagConstraints.LINE_START;
+		p.fill = GridBagConstraints.HORIZONTAL;
+		p.gridx = 0;
+		p.gridy = 6;
+		panelForm.add(buttonAdd, p);
+		p.fill = GridBagConstraints.NONE;
 
         /**REMOVE BUTTON*/
 		buttonRemove = new JButton("     Remove Item     ");
-		c.gridx = 3;
-		c.gridy = 6;
-		c.anchor = GridBagConstraints.LINE_START;
-		c.insets = new Insets(0, 15, 0, 0);
-		panelForm.add(buttonRemove, c);
-		c.insets = new Insets(0, 0, 0, 0);
+		p.gridx = 3;
+		p.gridy = 6;
+		p.anchor = GridBagConstraints.LINE_START;
+		p.insets = new Insets(0, 15, 0, 0);
+		panelForm.add(buttonRemove, p);
+		p.insets = new Insets(0, 0, 0, 0);
 		
 		/**CANCEL BUTTON*/
 		buttonCancel = new JButton("Cancel Order");
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.anchor = GridBagConstraints.LAST_LINE_START;
-		c.gridx = 0;
-		c.gridy = 9;
-		panelForm.add(buttonCancel, c);
-		c.fill = GridBagConstraints.NONE;
+		p.fill = GridBagConstraints.HORIZONTAL;
+		p.anchor = GridBagConstraints.LAST_LINE_START;
+		p.gridx = 0;
+		p.gridy = 9;
+		panelForm.add(buttonCancel, p);
+		p.fill = GridBagConstraints.NONE;
 
 		/** REPORT BUTTON */
 		buttonReport = new JButton("     Show Report      ");
-		c.gridx = 3; 
-		c.gridy = 9;
-		c.insets = new Insets(0, 15, 0, 0);
-		panelForm.add(buttonReport, c);
-		c.insets = new Insets(0, 0, 0, 0);
+		p.gridx = 3; 
+		p.gridy = 9;
+		p.insets = new Insets(0, 15, 0, 0);
+		panelForm.add(buttonReport, p);
+		p.insets = new Insets(0, 0, 0, 0);
 
 		/**CONFIRM BUTTON*/
 		buttonConfirm = new JButton("     Confirm Order     ");
-		c.anchor = GridBagConstraints.LINE_END;
-		c.gridx = 3;
-		c.gridy = 6;
-		panelForm.add(buttonConfirm, c);
+		p.anchor = GridBagConstraints.LINE_END;
+		p.gridx = 3;
+		p.gridy = 6;
+		panelForm.add(buttonConfirm, p);
 
 		/**QUIT BUTTON*/
 		buttonQuit = new JButton("   Quit   ");
-		c.gridx = 3;
-		c.gridy = 9;
-		c.insets = new Insets(35, 0, 0, 0);
-		c.anchor = GridBagConstraints.LAST_LINE_END;
-		panelForm.add(buttonQuit, c);
+		p.gridx = 3;
+		p.gridy = 9;
+		p.insets = new Insets(35, 0, 0, 0);
+		p.anchor = GridBagConstraints.LAST_LINE_END;
+		panelForm.add(buttonQuit, p);
     }
 
     private void initBtnActions() {
