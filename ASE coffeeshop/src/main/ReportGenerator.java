@@ -79,7 +79,7 @@ public class ReportGenerator {
             String simpleDateFormat = sdf.format(timestamp);
 
             // Define report directory path
-            String reportDirPath = System.getProperty("user.dir") + "/ASE-CoffeeShop/ASE coffeeshop/src/reports/";
+            String reportDirPath = System.getProperty("user.dir") + "/ASE coffeeshop/src/reports/";
 
             // Create report directory if it doesn't exist
             File reportDirFile = new File(reportDirPath);
