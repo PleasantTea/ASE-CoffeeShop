@@ -1,5 +1,9 @@
 package main;
 
+/**
+ * The class contains details about a menu item, 
+ * including its category, itemId, price, itemName, and description.
+ */
 public class MenuItem {
 	
 	private String category;
@@ -38,6 +42,11 @@ public class MenuItem {
     public void setDescription(String description) {
         this.description = description;
     }
+    /**
+     * Return a string, displaying the item name and its price,
+     * will be used in the GUI section.
+     * @return A formatted string containing item name and price.
+     */
     public String toString() {
 		return itemName + "        " + price;
 	}
