@@ -31,13 +31,14 @@ public class OrdersFileRead {
             // Reading from the second line
             while ((line = br.readLine()) != null){
             	if (line.trim().isEmpty() || line.replaceAll(",", "").trim().isEmpty()) {
-                    continue;   // Skip completely empty lines (including the form ‘,,,,,’)
+                    continue;   // Skip completely empty lines
                 }
             	String[] eachOrder = line.split(COMMA_DELIMITER);
             	// Verify data integrity
                 if (eachOrder.length < 6) { 
-                    throw new InvalidOrdersFileReadException("Invalid row: missing columns in CSV file. Row content: " + line);
+                    throw new InvalidOrdersFileReadException("Invalid row: missing columns in CSV file.");
                 }
+                // Get the individual fields and remove the first and last spaces
                 String orderIdStr = eachOrder[0].trim();
                 String customerId = eachOrder[1].trim();
                 String itemId = eachOrder[2].trim();
@@ -52,23 +53,31 @@ public class OrdersFileRead {
                 } catch (NumberFormatException e) {
                     throw new InvalidOrdersFileReadException("Invalid Order ID format: " + orderIdStr, e);
                 }
-                // Verify Customer ID and Item ID
-                if (customerId.isEmpty() || itemId.isEmpty()) {
-                    throw new InvalidOrdersFileReadException("Missing Customer ID or Item ID for Order ID: " + orderId);
+                
+                // Verify Customer ID
+                if (customerId.isEmpty() || customerId.matches(".*[@#$&*!/|%`^()~?+=-].*") || customerId.matches("\\d+")) {
+                    throw new InvalidOrdersFileReadException("Invalid customerId in Order Item -> " + customerId);
                 }
+                
+                // Verify Item ID
+                if (itemId.isEmpty() || itemId.matches(".*[@#$&*!/|%`^()~?+=-].*") || itemId.matches("\\d+")) {
+                	throw new InvalidOrdersFileReadException("Invalid itemId in Order Item -> " + itemId);
+            	}
+                
                 // Calibration Item Price
                 float itemPrice;
                 try {
                     itemPrice = Float.parseFloat(itemPriceStr);
                     if (itemPrice < 0) {
-                        throw new InvalidOrdersFileReadException("Invalid price for item: " + itemName);
+                        throw new InvalidOrdersFileReadException("Invalid price for item: " + itemPriceStr);
                     }
                 } catch (NumberFormatException e) {
-                    throw new InvalidOrdersFileReadException("Invalid price format for item: " + itemName, e);
+                    throw new InvalidOrdersFileReadException("Invalid price format for item: " + itemPriceStr, e);
                 }
-                // Checksum timestamp (you can check the format with a regular expression)
-                if (timestamp.isEmpty()) {
-                    throw new InvalidOrdersFileReadException("Missing timestamp for order ID: " + orderId);
+                
+                // Checksum timestamp (check the format with a regular expression)
+                if (timestamp.isEmpty() || timestamp.equals("0") || !timestamp.matches("^\\d{4}/\\d{1,2}/\\d{1,2} \\d{2}:\\d{2}:\\d{2}$")){
+                    throw new InvalidOrdersFileReadException("Invalid timestamp in Order Item(corresponding orderIdStr) -> " + orderIdStr);
                 }
                 // Create Order object and store it in HashMap
                 Order order = new Order();
@@ -84,19 +93,15 @@ public class OrdersFileRead {
             System.out.println("Completed Reading and Storing Existing Order CSV data into Data Structures");
 	    }
         catch(IOException ee){
-            //ee.printStackTrace();
             throw new InvalidOrdersFileReadException("Error reading the CSV file: " + fileName, ee);
         }
-        finally
-        {
-            try
-            {
+        finally{
+            try{
                 if(br!= null) {
                 	br.close();
                 }
             }
-            catch(IOException ie)
-            {
+            catch(IOException ie){
             	System.out.println("Exception : Error occured while closing the BufferedReader");
                 ie.printStackTrace();
             }
@@ -119,8 +124,8 @@ public class OrdersFileRead {
 	
 	// Get the latest customer number
 	public static Integer getLastCustomerNumber() {
-	    return existingOrder.values().stream()
-	             .map(Order::getCustomerID)
+	    return existingOrder.values().stream()         // Obtain all existing orders
+	             .map(Order::getCustomerID)			   // Get all customer IDs in the current
 	             .map(id -> id.replaceAll("\\D", ""))  // Remove non numeric characters "CUS1" -> "   1"
 	             .filter(id -> !id.isEmpty())          // Filter out empty strings "1"
 	             .map(Integer::parseInt)               // Convert the remaining numerical part to an integer
