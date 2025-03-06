@@ -115,7 +115,7 @@ public class MenuFileRead {
      * Get the set of all unique categories
      * @return HashSet<String> Includes all categories
      */
-	public synchronized HashSet<String> getDistinctCategory() {
+	public HashSet<String> getDistinctCategory() {
 		distinctCategory = new HashSet<String>();
 		for (MenuItem item1 : menuItemsHashMap.values()) {
             distinctCategory.add(item1.getCategory());
@@ -127,7 +127,7 @@ public class MenuFileRead {
      * @param selectedCategory Selected category
      * @return ArrayList<String> Contains the names of all items under the category
      */
-	public synchronized ArrayList<String> getItemNameListForSelectedCategory(String selectedCategory) {
+	public ArrayList<String> getItemNameListForSelectedCategory(String selectedCategory) {
 		ArrayList<String> listOfItems = new ArrayList<String>();
 		for (MenuItem item2 : menuItemsHashMap.values()) {
             if (item2.getCategory().equals(selectedCategory)) {
@@ -142,7 +142,7 @@ public class MenuFileRead {
      * @param item Selected itemName
      * @return String item description
      */
-	public synchronized String getDescriptionForSelectedCategoryAndItem(String selectedCategory, String item) {
+	public String getDescriptionForSelectedCategoryAndItem(String selectedCategory, String item) {
 	    for (MenuItem item3 : menuItemsHashMap.values()) {
             if (item3.getCategory().equals(selectedCategory) && item3.getItemName().equals(item)) {
                 return item3.getDescription();  
@@ -157,7 +157,7 @@ public class MenuFileRead {
      * @param description Selected item descriptions
      * @return String Item price
      */
-	public synchronized String getPriceForSelectedCategoryAndItemAndDescription(String selectedCategory, String item, String description) {
+	public String getPriceForSelectedCategoryAndItemAndDescription(String selectedCategory, String item, String description) {
 	    for (MenuItem item4 : menuItemsHashMap.values()) {
             if (item4.getCategory().equals(selectedCategory) && item4.getItemName().equals(item) && item4.getDescription().equals(description)) {
                 return String.valueOf(item4.getPrice());
