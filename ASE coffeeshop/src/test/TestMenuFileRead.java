@@ -17,7 +17,7 @@ public class TestMenuFileRead {
 
     
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         menuFileRead = new MenuFileRead();
     } 
     
@@ -60,7 +60,7 @@ public class TestMenuFileRead {
      * @throws InvalidMenuFileReadException If an error occurs while reading and parsing the CSV file.
      */
     @Test
-    void testReadCSVAndStoreData() throws IOException, InvalidMenuFileReadException {
+    public void testReadCSVAndStoreData() throws IOException, InvalidMenuFileReadException {
     	// Create a CSV test file.
     	createTestCSV();
     	
@@ -89,7 +89,7 @@ public class TestMenuFileRead {
      * Test whether the "getDistinctCategory()" method can correctly return a collection of categories.
      */
     @Test
-    void testGetDistinctCategory() {
+    public void testGetDistinctCategory() {
         HashSet<String> expectedCategories = new HashSet<>();
         expectedCategories.add("Coffee");
         expectedCategories.add("Drinks");
@@ -101,7 +101,7 @@ public class TestMenuFileRead {
      * Test whether the "getItemNameListForSelectedCategory()" method can return the correct list of item names.
      */
     @Test
-    void testGetItemNameListForSelectedCategory() {
+    public void testGetItemNameListForSelectedCategory() {
         ArrayList<String> expectedCoffeeItems = new ArrayList<>();
         expectedCoffeeItems.add("Americano");
         expectedCoffeeItems.add("Coconut Latte");
@@ -120,7 +120,7 @@ public class TestMenuFileRead {
      * Test the "getDescriptionForSelectedCategoryAndItem()" method.
      */
     @Test
-    void testGetDescriptionForSelectedCategoryAndItem() {
+    public void testGetDescriptionForSelectedCategoryAndItem() {
         assertEquals("Refreshing black coffee", menuFileRead.getDescriptionForSelectedCategoryAndItem("Coffee", "Americano"));
         assertEquals("Freshly squeezed orange juice", menuFileRead.getDescriptionForSelectedCategoryAndItem("Drinks", "Orange Juice"));
         assertEquals("Chocolate meets light mousse", menuFileRead.getDescriptionForSelectedCategoryAndItem("Dessert", "Chocolate Mousse"));
@@ -131,7 +131,7 @@ public class TestMenuFileRead {
      * Test the "getPriceForSelectedCategoryAndItemAndDescription()" method.
      */
     @Test
-    void testGetPriceForSelectedCategoryAndItemAndDescription() {
+    public void testGetPriceForSelectedCategoryAndItemAndDescription() {
         assertEquals("18.0", menuFileRead.getPriceForSelectedCategoryAndItemAndDescription("Coffee", "Americano", "Refreshing black coffee"));
         assertEquals("12.0", menuFileRead.getPriceForSelectedCategoryAndItemAndDescription("Drinks", "Orange Juice", "Freshly squeezed orange juice"));
         assertEquals("15.0", menuFileRead.getPriceForSelectedCategoryAndItemAndDescription("Dessert", "Chocolate Mousse", "Chocolate meets light mousse"));
