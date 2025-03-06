@@ -17,7 +17,7 @@ public class TestMenuFileRead {
 
     
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         menuFileRead = new MenuFileRead();
     } 
     
