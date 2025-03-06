@@ -269,7 +269,7 @@ public class Main extends JFrame {
         DefaultListModel<MenuItem> model = new DefaultListModel<>(); // Store MenuItem object 
         
         for (String name : itemNames) {
-            for (MenuItem item : menuFileReader.menuItemsHashMap.values()) {
+            for (MenuItem item : MenuFileRead.menuItemsHashMap.values()) {
                 if (item.getItemName().equals(name)) {
                     model.addElement(item); // Add MenuItem object
                 }
