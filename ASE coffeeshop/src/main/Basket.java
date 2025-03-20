@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import fileRead.OrdersFileRead;
+import model.CustomerQueue;
 
 public class Basket {
 	private ArrayList<MenuItem> menuItems;
@@ -108,6 +109,10 @@ public class Basket {
         // Write into CSV
         String newOrdersFileName = "ASE coffeeshop/src/newOrders.csv";
         ordersFileRead.writeOrdersToCSV(newOrdersFileName);
+
+	// Add the orders to the CustomerQueue
+        CustomerQueue queue = CustomerQueue.getInstance();
+        queue.addCustomer(newOrders);
 
         System.out.println("The new order has been confirmed and saved!");
     }
