@@ -108,8 +108,7 @@ public class DiscountRuler {
 				for(MenuItem custOrder: customerOrder) {
 					
 					String category = custOrder.getCategory();
-					
-					System.out.println(category);
+
 					uniqueCategory.add(category);
 					
 				}
