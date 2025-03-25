@@ -3,6 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import main.ReportGenerator;
 
 public class Logger {
 	 private static volatile Logger instance;
@@ -74,9 +75,11 @@ public class Logger {
 	    public void printFile() {
 	        try {
 	            System.out.println("PRINTED");
-	            PrintWriter out = new PrintWriter(new FileWriter("Files/LoggerFile.txt", true)); // Supplementary mode
+	            PrintWriter out = new PrintWriter(new FileWriter("ASE coffeeshop/src/logFiles/LoggerFile.txt", true)); // Supplementary mode
 	            out.println(logstring);
 	            out.close();
+				ReportGenerator.getInstance().generateReport();
+				System.out.println("Report generated successfully!");
 	            System.exit(0);
 	        } catch (IOException e) {
 	            e.printStackTrace();

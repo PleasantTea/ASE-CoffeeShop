@@ -20,8 +20,6 @@ import main.Logger;
 public class CustomerQueue {
     private static CustomerQueue instance = null;
     private final LinkedList<LinkedHashMap<Integer, Order>> queue;
-    private static int processedCount = 0;
-    private static int totalCount = 0;
 
     // Constructor function
     private CustomerQueue() {
@@ -78,7 +76,6 @@ public class CustomerQueue {
         	LinkedHashMap<Integer, Order> customerOrders = entry.getValue();
             
         	queue.addLast(customerOrders);
-            totalCount += customerOrders.size();
             
             Logger.getInstance().info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
         }
@@ -96,7 +93,6 @@ public class CustomerQueue {
         }
 
         queue.addLast(customerOrders);  // Add to the end of the queue
-        totalCount += customerOrders.size();
         
         String customerID = customerOrders.values().iterator().next().getCustomerID();
         Logger.getInstance().info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
@@ -118,28 +114,12 @@ public class CustomerQueue {
         //processedCount += queue.peek().size();
         //return queue.removeFirst();  // Retrieve the first customer from the queue
         LinkedHashMap<Integer, Order> nextCustomer = queue.removeFirst();
-        processedCount += nextCustomer.size();
         String customerID = nextCustomer.values().iterator().next().getCustomerID();
 
         // Recording logs
         Logger.getInstance().info("Processing orders for Customer " + customerID + ". Total orders: " + nextCustomer.size());
 
         return nextCustomer;
-    }
-
-    /**
-     * Check if all orders have been processed
-     * @return Have all orders been processed
-     */
-    public synchronized boolean isFinished() {
-        //return processedCount == totalCount;
-        boolean finished = processedCount == totalCount;
-        if (finished) {
-            Logger.getInstance().info("All orders have been processed. Total orders: " + totalCount);
-            Logger.getInstance().printFile();  // Logging to a file
-        }
-
-        return finished;
     }
     
     /**

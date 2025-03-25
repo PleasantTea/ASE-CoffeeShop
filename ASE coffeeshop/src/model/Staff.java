@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 import main.Logger;
 import model.CustomerQueue;
 import main.Order;
+import view.StateDisplayGUI;
 
 
 public class Staff extends Thread {
@@ -21,10 +22,12 @@ public class Staff extends Thread {
     private CustomerQueue customerQueue = CustomerQueue.getInstance();//client queue
     private LinkedHashMap<Integer,Order> currentCustomer;
     
-    private OrderSystemView view;
+    private StateDisplayGUI view;
     private JTextArea panel;
     private static Logger logger = Logger.getInstance();
-
+    
+    private static boolean simulationStarted = false;
+    private static final Object lock = new Object();
 
     /**
      * This is the constructor of the Staff class
@@ -32,13 +35,14 @@ public class Staff extends Thread {
      * @param processor - this is the costumer order processor
      * @param view - this is the the view from MVC pattern
      */
-    public Staff(long staffNumber, CustomerQueue customerQueue, OrderSystemView view) {
+    public Staff(long staffNumber, CustomerQueue customerQueue, StateDisplayGUI view) {
         this.staffNumber = Math.round(staffNumber);
         this.queueCustomer = customerQueue.getQueue();
         this.customerQueue = customerQueue;
         this.view = view;
         currentTask = staffNumber + " is waiting for orders in the queue";
         logger.info("STAFF MEMBER " + currentTask);
+        view.setStaffText(this.staffNumber, currentTask);  // 初始状态显示
     }
     /**
      * This method is used for getting the current costumer
@@ -50,7 +54,17 @@ public class Staff extends Thread {
 	}
 
     // This method is used to make the staff thread run
-    public void run() {        
+    public void run() { 
+        synchronized (lock) {
+            while (!simulationStarted) {
+                try {
+                    lock.wait();  // 等待用户点击按钮
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        
     	while (queueCustomer.size() == 0 && isFinished == false) {
             try {
                 Thread.sleep(500);
@@ -59,16 +73,16 @@ public class Staff extends Thread {
             }
         }
     	
-    
     	while (queueCustomer.size() > 0) {
     		Random random = new Random();
-    		int low = 3000 / speed;
-            int high = 15000 / speed;
+    		int low = 6000 / speed;
+            int high = 30000 / speed;
             int result = random.nextInt(high - low) + low;
     	                
             try {
             	currentCustomer = customerQueue.getNextCustomer();		
-            	Integer customerID = currentCustomer.keySet().iterator().next(); // 获取第一个键（客户ID）
+            	//Integer customerID = currentCustomer.keySet().iterator().next(); // 获取第一个键（客户ID）
+                String customerID = currentCustomer.values().iterator().next().getCustomerID();
             	StringBuilder orderDetails = new StringBuilder();
             	Float total = customerQueue.getCurrentCustomerTotalAmountBeforeDiscount(currentCustomer);
             	Float discount = customerQueue.getCurrentCustomerDiscount(currentCustomer);
@@ -86,11 +100,11 @@ public class Staff extends Thread {
             	}
 
             	// 构造最终的任务描述，显示该客户的所有订单信息
-            	currentTask = staffNumber + " is processing customer " + customerID + "'s order of: \n" + orderDetails.toString() + " Total: " + total + discountText;
-            	logger.info("Staff member " + currentTask);
+            	currentTask = "processing customer " + customerID + "'s order: \n" + orderDetails.toString() + " Total: " + total + discountText;
+            	logger.info("Staff member " + staffNumber + " is " + currentTask);
             
 				
-				view.UpdateAllText();
+				view.setStaffText(staffNumber, currentTask);  // 
 
 				try {
 					Thread.sleep(result);
@@ -98,10 +112,10 @@ public class Staff extends Thread {
 					e.printStackTrace();
 				}
 
-				currentTask = staffNumber + " has completed processing customer " + customerID + "'s order";	
-				logger.info("Staff member " + currentTask);
+				currentTask =  "completed customer " + customerID + "'s order";	
+				logger.info("Staff member " + staffNumber + " " + currentTask);
 				
-				view.UpdateAllText();				
+				view.setStaffText(staffNumber, currentTask);  // 			
 			} catch (NullPointerException e) {
 				continue;
 			}
@@ -115,7 +129,7 @@ public class Staff extends Thread {
             }
             currentTask = staffNumber + " is ready to take an order";
             logger.info("Staff member " + currentTask);
-            view.UpdateAllText();
+            view.setStaffText(staffNumber, currentTask);  // 
         }
 
         if (isFinished==false) {
@@ -162,6 +176,12 @@ public class Staff extends Thread {
     public void finish() {
         logger.info("Staff finished: " + staffNumber);
         this.isFinished = true;
+    }
+    public static void startSimulationForAllStaff() {
+        synchronized (lock) {
+            simulationStarted = true;
+            lock.notifyAll();
+        }
     }
     @Override
     public boolean equals(Object o) {

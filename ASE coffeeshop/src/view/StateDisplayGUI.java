@@ -1,6 +1,9 @@
 package view;
 
 import javax.swing.*;
+
+import model.Staff;
+
 import java.awt.*;
 
 public class StateDisplayGUI extends JFrame {
@@ -74,6 +77,9 @@ public class StateDisplayGUI extends JFrame {
         add(bottomPanel, gbc);
 
         //setVisible(true);
+        startButton.addActionListener(e -> {
+            Staff.startSimulationForAllStaff();  // 唤醒所有等待的员工线程
+        });
     }
 
     private JTextArea createStaffTextArea(String title) {
@@ -86,6 +92,18 @@ public class StateDisplayGUI extends JFrame {
     public void setQueueText(String text) {
         SwingUtilities.invokeLater(() -> queueTextArea.setText(text));
     }
+
+    public void setStaffText(int staffNumber, String text) {
+        SwingUtilities.invokeLater(() -> {
+            switch (staffNumber) {
+                case 1 -> staff1TextArea.setText(text);
+                case 2 -> staff2TextArea.setText(text);
+                case 3 -> staff3TextArea.setText(text);
+                default -> {}
+            }
+        });
+    }
+    
 
     /*public static void main(String[] args) {
         SwingUtilities.invokeLater(StateDisplayGUI::new);

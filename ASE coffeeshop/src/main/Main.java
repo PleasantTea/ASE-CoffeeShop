@@ -12,7 +12,8 @@ import java.awt.Toolkit;
 import javax.swing.SwingUtilities;
 import view.CoffeeShopGUI;
 import view.StateDisplayGUI;
-import controller.StateController;
+import controller.StaffController;
+import controller.QueueController;
 
 public class Main {
     // Data management
@@ -23,7 +24,7 @@ public class Main {
     private static CustomerQueue customerQueue;
     private static Basket basket;
 
-    private static StateController stateController;
+    private static QueueController queueController;
 
     public static void main(String[] args) throws InvalidMenuFileReadException, InvalidOrdersFileReadException {
         // Initialize file management
@@ -59,8 +60,11 @@ public class Main {
             stateGUI.setLocation(screenWidth - stateGUI.getWidth() - 100, (screenHeight - stateGUI.getHeight()) / 2);
             stateGUI.setVisible(true);
 
-            stateController = new StateController(customerQueue, stateGUI);
-            new Thread(stateController).start();
+            queueController = new QueueController(customerQueue, stateGUI);
+            new Thread(queueController).start();
+
+            StaffController staffController = new StaffController(customerQueue, stateGUI);
+            staffController.startInitialStaff();
         });
     }
 }
