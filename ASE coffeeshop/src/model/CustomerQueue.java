@@ -10,6 +10,7 @@ import fileRead.OrdersFileRead;
 import main.Basket;
 import main.MenuItem;
 import main.Order;
+import main.Logger;
 
 /**
  * This class implements methods related to the customer queue, 
@@ -78,7 +79,8 @@ public class CustomerQueue {
             
         	queue.addLast(customerOrders);
             totalCount += customerOrders.size();
-            System.out.println("Customer " + customerID + " added to queue.");    
+            
+            Logger.getInstance().info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
         }
 
         notifyAll(); // Wake up waiting threads
@@ -95,7 +97,9 @@ public class CustomerQueue {
 
         queue.addLast(customerOrders);  // Add to the end of the queue
         totalCount += customerOrders.size();
-        System.out.println("Customer " + customerOrders.values().iterator().next().getCustomerID() + " added to queue.");
+        
+        String customerID = customerOrders.values().iterator().next().getCustomerID();
+        Logger.getInstance().info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
         notifyAll();  // Wake up waiting threads
     }
 
@@ -111,8 +115,16 @@ public class CustomerQueue {
                 Thread.currentThread().interrupt();
             }
         }
-        processedCount += queue.peek().size();
-        return queue.removeFirst();  // Retrieve the first customer from the queue
+        //processedCount += queue.peek().size();
+        //return queue.removeFirst();  // Retrieve the first customer from the queue
+        LinkedHashMap<Integer, Order> nextCustomer = queue.removeFirst();
+        processedCount += nextCustomer.size();
+        String customerID = nextCustomer.values().iterator().next().getCustomerID();
+
+        // Recording logs
+        Logger.getInstance().info("Processing orders for Customer " + customerID + ". Total orders: " + nextCustomer.size());
+
+        return nextCustomer;
     }
 
     /**
@@ -120,7 +132,14 @@ public class CustomerQueue {
      * @return Have all orders been processed
      */
     public synchronized boolean isFinished() {
-        return processedCount == totalCount;
+        //return processedCount == totalCount;
+        boolean finished = processedCount == totalCount;
+        if (finished) {
+            Logger.getInstance().info("All orders have been processed. Total orders: " + totalCount);
+            Logger.getInstance().printFile();  // Logging to a file
+        }
+
+        return finished;
     }
     
     /**
