@@ -1,4 +1,4 @@
-package serving_staff;
+package model;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -68,7 +68,7 @@ public class Staff extends Thread {
     	                
             try {
             	currentCustomer = customerQueue.getNextCustomer();		
-            	Integer customerID = currentCustomer.keySet().iterator().next(); // »ñÈ¡µÚÒ»¸ö¼ü£¨¿Í»§ID£©
+            	Integer customerID = currentCustomer.keySet().iterator().next(); // è·å–ç¬¬ä¸€ä¸ªé”®ï¼ˆå®¢æˆ·IDï¼‰
             	StringBuilder orderDetails = new StringBuilder();
             	Float total = customerQueue.getCurrentCustomerTotalAmountBeforeDiscount(currentCustomer);
             	Float discount = customerQueue.getCurrentCustomerDiscount(currentCustomer);
@@ -79,13 +79,13 @@ public class Staff extends Thread {
             		discountText =  " (with " + discount + " discount)";
             	}
             	total = total - discount;
-            	// ±éÀú¿Í»§µÄËùÓĞ¶©µ¥
+            	// éå†å®¢æˆ·çš„æ‰€æœ‰è®¢å•
             	for (Order order : currentCustomer.values()) {
-            	    // »ñÈ¡¶©µ¥ÖĞµÄÎïÆ·ĞÅÏ¢£¬²¢½«ÆäÌí¼Óµ½ orderDetails ÖĞ
+            	    // è·å–è®¢å•ä¸­çš„ç‰©å“ä¿¡æ¯ï¼Œå¹¶å°†å…¶æ·»åŠ åˆ° orderDetails ä¸­
             	    orderDetails.append(order.getItemName()).append("\n");
             	}
 
-            	// ¹¹Ôì×îÖÕµÄÈÎÎñÃèÊö£¬ÏÔÊ¾¸Ã¿Í»§µÄËùÓĞ¶©µ¥ĞÅÏ¢
+            	// æ„é€ æœ€ç»ˆçš„ä»»åŠ¡æè¿°ï¼Œæ˜¾ç¤ºè¯¥å®¢æˆ·çš„æ‰€æœ‰è®¢å•ä¿¡æ¯
             	currentTask = staffNumber + " is processing customer " + customerID + "'s order of: \n" + orderDetails.toString() + " Total: " + total + discountText;
             	logger.info("Staff member " + currentTask);
             
