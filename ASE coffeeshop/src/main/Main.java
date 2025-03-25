@@ -6,8 +6,13 @@ import model.CustomerQueue;
 import exception.InvalidMenuFileReadException;
 import exception.InvalidOrdersFileReadException;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.SwingUtilities;
 import view.CoffeeShopGUI;
+import view.StateDisplayGUI;
+import controller.StateController;
 
 public class Main {
     // Data management
@@ -17,6 +22,8 @@ public class Main {
     private static OrdersFileRead ordersFileReader;
     private static CustomerQueue customerQueue;
     private static Basket basket;
+
+    private static StateController stateController;
 
     public static void main(String[] args) throws InvalidMenuFileReadException, InvalidOrdersFileReadException {
         // Initialize file management
@@ -31,6 +38,29 @@ public class Main {
         basket = new Basket();
         
         // Launch GUI
-        SwingUtilities.invokeLater(() -> new CoffeeShopGUI(menuFileReader, basket).setVisible(true));
+        //SwingUtilities.invokeLater(() -> new CoffeeShopGUI(menuFileReader, basket).setVisible(true));
+        SwingUtilities.invokeLater(() -> {
+            //new CoffeeShopGUI(menuFileReader, basket).setVisible(true);
+            //new StateDisplayGUI();  // 这行是新加的
+            
+            CoffeeShopGUI coffeeGUI = new CoffeeShopGUI(menuFileReader, basket);
+            StateDisplayGUI stateGUI = new StateDisplayGUI();
+
+            // 获取屏幕尺寸
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            int screenWidth = screenSize.width;
+            int screenHeight = screenSize.height;
+
+            // 设置 CoffeeShopGUI 在屏幕左侧
+            coffeeGUI.setLocation(100, (screenHeight - coffeeGUI.getHeight()) / 2);
+            coffeeGUI.setVisible(true);
+
+            // 设置 StateDisplayGUI 在屏幕右侧
+            stateGUI.setLocation(screenWidth - stateGUI.getWidth() - 100, (screenHeight - stateGUI.getHeight()) / 2);
+            stateGUI.setVisible(true);
+
+            stateController = new StateController(customerQueue, stateGUI);
+            new Thread(stateController).start();
+        });
     }
 }
