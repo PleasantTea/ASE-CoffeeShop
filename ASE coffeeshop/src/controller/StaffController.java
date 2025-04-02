@@ -27,7 +27,7 @@ public class StaffController {
 
     public void addStaff() {
         if (staffList.size() >= 3) {
-            JOptionPane.showMessageDialog(null, "最多只能有 3 位员工！");
+            JOptionPane.showMessageDialog(null, "There are at most three staffs!");
             return;
         }
         int nextNumber = findAvailableStaffNumber();

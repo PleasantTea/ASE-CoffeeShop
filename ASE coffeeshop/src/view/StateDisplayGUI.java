@@ -7,7 +7,7 @@ import model.Staff;
 import java.awt.*;
 
 public class StateDisplayGUI extends JFrame {
-    private JTextArea queueTextArea, staff1TextArea, staff2TextArea, staff3TextArea;
+    private JTextArea queueTextArea, onlineQueueTextArea, staff1TextArea, staff2TextArea, staff3TextArea;
     private JSlider speedSlider;
     private JButton startButton, addStaffButton, removeStaffButton;
     private controller.StaffController staffController;
@@ -26,7 +26,7 @@ public class StateDisplayGUI extends JFrame {
         gbc.insets = new Insets(5, 5, 5, 5); // 内边距
 
         // ===== 第一栏：顾客排队订单 =====
-        JPanel queuePanel = new JPanel(new BorderLayout());
+        /*JPanel queuePanel = new JPanel(new BorderLayout());
         queuePanel.setBorder(BorderFactory.createTitledBorder("Queuing orders"));
         queueTextArea = new JTextArea();
         queueTextArea.setEditable(false);
@@ -34,7 +34,34 @@ public class StateDisplayGUI extends JFrame {
 
         gbc.gridy = 0;
         gbc.weighty = 0.50; // 高度较大
-        add(queuePanel, gbc);
+        add(queuePanel, gbc);*/
+        // ===== 第一栏：顾客排队订单（普通 + 线上优先）=====
+        JPanel queueSplitPanel = new JPanel(new GridLayout(1, 2, 10, 0));
+        queueSplitPanel.setBorder(BorderFactory.createTitledBorder("Order Queues"));
+
+        // --- 普通队列 ---
+        JPanel regularQueuePanel = new JPanel(new BorderLayout());
+        regularQueuePanel.setBorder(BorderFactory.createTitledBorder("In-store Orders"));
+        queueTextArea = new JTextArea();
+        queueTextArea.setEditable(false);
+        regularQueuePanel.add(new JScrollPane(queueTextArea), BorderLayout.CENTER);
+
+        // --- 线上优先队列 ---
+        JPanel onlineQueuePanel = new JPanel(new BorderLayout());
+        onlineQueuePanel.setBorder(BorderFactory.createTitledBorder("Online Orders"));
+        onlineQueueTextArea = new JTextArea(); // 你需要在类中新增这个变量
+        onlineQueueTextArea.setEditable(false);
+        onlineQueuePanel.add(new JScrollPane(onlineQueueTextArea), BorderLayout.CENTER);
+
+        // 添加到 split 容器中
+        queueSplitPanel.add(regularQueuePanel);
+        queueSplitPanel.add(onlineQueuePanel);
+
+        gbc.gridy = 0;
+        gbc.weighty = 0.50; // 高度较大
+        add(queueSplitPanel, gbc);
+
+        
 
         // ===== 第二栏：员工工作状态（3列）=====
         JPanel staffPanel = new JPanel(new GridLayout(1, 3, 10, 10));

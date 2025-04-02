@@ -67,16 +67,19 @@ public class CoffeeShopGUI extends JFrame {
         p.gridx = 0;
         p.gridy = 0;
         panelForm.add(menuPanel, p);
-        //
         
         // Category button
         foodButton = new JButton("Coffee");
         drinkButton = new JButton("Drinks");
         memButton = new JButton("Dessert");
-        menuPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        menuPanel.add(foodButton);
-        menuPanel.add(drinkButton);
-        menuPanel.add(memButton);
+        JPanel categoryPanel = new JPanel(new GridLayout(1, 3, 5, 0)); // Horizontal spacing 5px
+        categoryPanel.setMaximumSize(new Dimension(270, 40)); // Limit the maximum height to prevent compression
+        categoryPanel.add(foodButton);
+        categoryPanel.add(drinkButton);
+        categoryPanel.add(memButton);
+        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS)); // Use vertical arrangement, button + product list
+        menuPanel.add(categoryPanel);
+
 
         // Product List
         productList = new JList<>();
@@ -138,10 +141,11 @@ public class CoffeeShopGUI extends JFrame {
 		p.fill = GridBagConstraints.NONE;
 
         /**REMOVE BUTTON*/
-		buttonRemove = new JButton("     Remove Item     ");
+		buttonRemove = new JButton("Remove Item");
 		p.gridx = 3;
 		p.gridy = 6;
 		p.anchor = GridBagConstraints.LINE_START;
+        p.fill = GridBagConstraints.HORIZONTAL;
 		p.insets = new Insets(0, 15, 0, 0);
 		panelForm.add(buttonRemove, p);
 		p.insets = new Insets(0, 0, 0, 0);
@@ -156,25 +160,28 @@ public class CoffeeShopGUI extends JFrame {
 		p.fill = GridBagConstraints.NONE;
 
 		/** REPORT BUTTON */
+        /* 
 		buttonReport = new JButton("     Show Report      ");
 		p.gridx = 3; 
 		p.gridy = 9;
 		p.insets = new Insets(0, 15, 0, 0);
 		panelForm.add(buttonReport, p);
-		p.insets = new Insets(0, 0, 0, 0);
+		p.insets = new Insets(0, 0, 0, 0); */
 
 		/**CONFIRM BUTTON*/
-		buttonConfirm = new JButton("     Confirm Order     ");
-		p.anchor = GridBagConstraints.LINE_END;
+		buttonConfirm = new JButton("    Confirm Order    ");
+		p.anchor = GridBagConstraints.LINE_START;
 		p.gridx = 3;
-		p.gridy = 6;
+		p.gridy = 9;
+        p.insets = new Insets(20, 15, 0, 0);
 		panelForm.add(buttonConfirm, p);
+        p.insets = new Insets(0, 0, 0, 0);
 
 		/**QUIT BUTTON*/
 		buttonQuit = new JButton("   Quit   ");
 		p.gridx = 3;
 		p.gridy = 9;
-		p.insets = new Insets(35, 0, 0, 0);
+		p.insets = new Insets(20, 0, 0, 0);
 		p.anchor = GridBagConstraints.LAST_LINE_END;
 		panelForm.add(buttonQuit, p);
     }
@@ -221,23 +228,17 @@ public class CoffeeShopGUI extends JFrame {
             setPrice();
             JOptionPane.showMessageDialog(null, "Order has been successfully cancelled");
         });        
-
+        /* 
         buttonReport.addActionListener(e -> {
             ReportGenerator.getInstance().generateReport();
             isReportGenerated = true; 
             JOptionPane.showMessageDialog(null, "Report generated successfully!");
-        });
+        });*/
 
         buttonQuit.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                // Check if the report has been generated
-                if (!isReportGenerated) {
-                    // If the report is not generated, prompt the user
-                    JOptionPane.showMessageDialog(null, "Report has not been generated yet. Please generate the report before quitting.");
-                } else {
-                    System.exit(0);
-                }
+            public void actionPerformed(ActionEvent e) {             
+                System.exit(0);
             }
         });
         
