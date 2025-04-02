@@ -13,14 +13,13 @@ import view.StateDisplayGUI;
 
 
 public class Staff extends Thread {
-    private int staffNumber;//Attendant No.
-    private int speed = 3; // Used to simulate the speed at which orders are processed
-    private boolean isFinished = false; // Used to mark whether the waiter has completed his or her work   
-    private boolean closingShop = false; // Used to mark whether the coffeeshop has 
+    private int staffNumber;  //Attendant No.
+    private int speed = 3;  // Used to simulate the speed at which orders are processed
+    private boolean isFinished = false;  // Used to mark whether the waiter has completed his or her work   
+    private boolean closingShop = false;  // Used to mark whether the coffeeshop has 
     private boolean isCancelled = false;
     private String currentTask;
-    private LinkedList<LinkedHashMap<Integer, Order>> queueCustomer = new LinkedList<>();
-    private CustomerQueue customerQueue = CustomerQueue.getInstance();//client queue
+    private CustomerQueue customerQueue = CustomerQueue.getInstance();  //client queue
     private LinkedHashMap<Integer,Order> currentCustomer;
     
     private StateDisplayGUI view;
@@ -38,7 +37,6 @@ public class Staff extends Thread {
      */
     public Staff(long staffNumber, CustomerQueue customerQueue, StateDisplayGUI view) {
         this.staffNumber = Math.round(staffNumber);
-        this.queueCustomer = customerQueue.getQueue();
         this.customerQueue = customerQueue;
         this.view = view;
         currentTask = staffNumber + " is waiting for orders in the queue";
@@ -73,15 +71,15 @@ public class Staff extends Thread {
             return;  // ✅ 终止线程运行
         }
         
-    	while (queueCustomer.size() == 0 && isFinished == false) {
+    	/*while (queueCustomer.size() == 0 && isFinished == false) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     	
-    	while (queueCustomer.size() > 0) {
+    	while (customerQueue.getQueueSize() >= 0) {
     		Random random = new Random();
             int currentSpeed = this.speed;
     		int low = 3600 / currentSpeed; //1200
@@ -90,7 +88,13 @@ public class Staff extends Thread {
     	                
             try {
             	currentCustomer = customerQueue.getNextCustomer();		
-            	//Integer customerID = currentCustomer.keySet().iterator().next(); // 获取第一个键（客户ID）
+
+		if (currentCustomer == null) { 
+            		logger.info("No more customers, need to close.");
+                    break;  // Exit after timeout
+                }
+		
+		//Integer customerID = currentCustomer.keySet().iterator().next(); // 获取第一个键（客户ID）
                 String customerID = currentCustomer.values().iterator().next().getCustomerID();
             	StringBuilder orderDetails = new StringBuilder();
             	Float total = customerQueue.getCurrentCustomerTotalAmountBeforeDiscount(currentCustomer);
