@@ -213,7 +213,7 @@ public class CoffeeShopGUI extends JFrame {
         
         buttonConfirm.addActionListener(e -> {
             if (!basket.getItems().isEmpty()) {
-                basket.confirmOrder();
+                basket.confirmOrder(false);
                 JOptionPane.showMessageDialog(null, "Order Confirmed");
                 displayBasket();
                 setPrice();

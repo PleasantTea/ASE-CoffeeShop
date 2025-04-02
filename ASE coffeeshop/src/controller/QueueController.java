@@ -35,18 +35,31 @@ public class QueueController implements Runnable {
     }
 
     private void updateQueueDisplay() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder inStoreSb = new StringBuilder();
+        StringBuilder onlineSb = new StringBuilder();
 
-        int queueSize = customerQueue.getQueueSize();
-        sb.append("There are currently ").append(queueSize).append(" people waiting in the queue:\n\n");
-
+        // 普通队列
+        int regularQueueSize = customerQueue.getQueue().size();
+        inStoreSb.append("There are ").append(regularQueueSize).append(" in-store customers waiting:\n\n");
         for (LinkedHashMap<Integer, Order> customerOrders : customerQueue.getQueue()) {
             if (customerOrders.isEmpty()) continue;
             Order firstOrder = customerOrders.values().iterator().next();
-            sb.append("    Customer ").append(firstOrder.getCustomerID())
-              .append(" - ").append(customerOrders.size()).append(" items\n");
+            inStoreSb.append("    Customer ").append(firstOrder.getCustomerID())
+                    .append(" - ").append(customerOrders.size()).append(" items\n");
         }
 
-        stateDisplayGUI.setQueueText(sb.toString());
+        // 优先队列
+        int priorityQueueSize = customerQueue.getPriorityQueue().size();
+        onlineSb.append("There are ").append(priorityQueueSize).append(" online customers waiting:\n\n");
+        for (LinkedHashMap<Integer, Order> customerOrders : customerQueue.getPriorityQueue()) {
+            if (customerOrders.isEmpty()) continue;
+            Order firstOrder = customerOrders.values().iterator().next();
+            onlineSb.append("    Customer ").append(firstOrder.getCustomerID())
+                    .append(" - ").append(customerOrders.size()).append(" items\n");
+        }
+
+        // 更新 GUI
+        stateDisplayGUI.setQueueText(inStoreSb.toString());
+        stateDisplayGUI.setOnlineQueueText(onlineSb.toString());
     }
 }

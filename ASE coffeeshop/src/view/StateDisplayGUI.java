@@ -61,7 +61,7 @@ public class StateDisplayGUI extends JFrame {
         gbc.weighty = 0.50; // 高度较大
         add(queueSplitPanel, gbc);
 
-        
+
 
         // ===== 第二栏：员工工作状态（3列）=====
         JPanel staffPanel = new JPanel(new GridLayout(1, 3, 10, 10));
@@ -152,6 +152,11 @@ public class StateDisplayGUI extends JFrame {
     public void setQueueText(String text) {
         SwingUtilities.invokeLater(() -> queueTextArea.setText(text));
     }
+
+    public void setOnlineQueueText(String text) {
+        SwingUtilities.invokeLater(() -> onlineQueueTextArea.setText(text));
+    }
+    
 
     public void setStaffText(int staffNumber, String text) {
         SwingUtilities.invokeLater(() -> {
