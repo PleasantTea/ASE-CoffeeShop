@@ -26,15 +26,24 @@ public class StaffController {
     }
 
     public void addStaff() {
-        Staff staff = new Staff(staffCounter++, queue, gui);
+        if (staffList.size() >= 3) {
+            JOptionPane.showMessageDialog(null, "最多只能有 3 位员工！");
+            return;
+        }
+        int nextNumber = findAvailableStaffNumber();
+        
+        Staff staff = new Staff(nextNumber, queue, gui);
         staffList.add(staff);
         staff.start();
+        
     }
 
     public void removeStaff() {
         if (!staffList.isEmpty()) {
             Staff staff = staffList.remove(staffList.size() - 1);
             staff.finish(); // 标记员工完成工作
+
+            gui.setStaffText(staff.getStaffNumber(), "");
         } else {
             JOptionPane.showMessageDialog(null, "没有更多员工可移除！");
         }
@@ -45,4 +54,21 @@ public class StaffController {
             s.setSpeed(speed);
         }
     }
+
+    private int findAvailableStaffNumber() {
+        // 1~3 可用编号
+        for (int i = 1; i <= 3; i++) {
+            boolean taken = false;
+            for (Staff s : staffList) {
+                if (s.getStaffNumber() == i) {
+                    taken = true;
+                    break;
+                }
+            }
+            if (!taken) return i;
+        }
+        return staffCounter++; // fallback（理论上不会执行到）
+    }
+
+    
 }

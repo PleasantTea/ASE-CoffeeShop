@@ -14,9 +14,10 @@ import view.StateDisplayGUI;
 
 public class Staff extends Thread {
     private int staffNumber;//Attendant No.
-    private int speed = 5; // Used to simulate the speed at which orders are processed
+    private int speed = 3; // Used to simulate the speed at which orders are processed
     private boolean isFinished = false; // Used to mark whether the waiter has completed his or her work   
     private boolean closingShop = false; // Used to mark whether the coffeeshop has 
+    private boolean isCancelled = false;
     private String currentTask;
     private LinkedList<LinkedHashMap<Integer, Order>> queueCustomer = new LinkedList<>();
     private CustomerQueue customerQueue = CustomerQueue.getInstance();//client queue
@@ -64,6 +65,13 @@ public class Staff extends Thread {
                 }
             }
         }
+
+        if (isCancelled) {
+            currentTask = staffNumber + " was removed before simulation started.";
+            logger.info("STAFF MEMBER " + currentTask);
+            view.setStaffText(staffNumber, "");  // 清空面板
+            return;  // ✅ 终止线程运行
+        }
         
     	while (queueCustomer.size() == 0 && isFinished == false) {
             try {
@@ -75,8 +83,9 @@ public class Staff extends Thread {
     	
     	while (queueCustomer.size() > 0) {
     		Random random = new Random();
-    		int low = 6000 / speed;
-            int high = 30000 / speed;
+            int currentSpeed = this.speed;
+    		int low = 3600 / currentSpeed; //1200
+            int high = 18000 / currentSpeed;   //6000
             int result = random.nextInt(high - low) + low;
     	                
             try {
@@ -160,6 +169,10 @@ public class Staff extends Thread {
         return currentTask;
     }
 
+    public int getStaffNumber() {
+        return staffNumber;
+    }
+
 
     /**
      * This method sets the speed of the process
@@ -176,6 +189,7 @@ public class Staff extends Thread {
     public void finish() {
         logger.info("Staff finished: " + staffNumber);
         this.isFinished = true;
+        this.isCancelled = true; 
     }
     public static void startSimulationForAllStaff() {
         synchronized (lock) {

@@ -10,6 +10,7 @@ public class StateDisplayGUI extends JFrame {
     private JTextArea queueTextArea, staff1TextArea, staff2TextArea, staff3TextArea;
     private JSlider speedSlider;
     private JButton startButton, addStaffButton, removeStaffButton;
+    private controller.StaffController staffController;
 
     public StateDisplayGUI() {
         setTitle("Order status");
@@ -60,6 +61,16 @@ public class StateDisplayGUI extends JFrame {
         speedSlider.setPaintLabels(true);
         sliderPanel.add(speedSlider, BorderLayout.CENTER);
 
+        // Add listener to speed slider to update staff processing speed
+        speedSlider.addChangeListener(e -> {
+            int speed = speedSlider.getValue(); // 值范围 1~5
+            if (staffController != null) {
+                staffController.setAllStaffSpeed(speed);
+                System.out.println("Slider changed: set all staff speed to " + speed);
+            }
+        });
+
+
         JPanel buttonPanel = new JPanel();
         startButton = new JButton("Start Simulation");
         addStaffButton = new JButton("Add Staff");
@@ -77,9 +88,31 @@ public class StateDisplayGUI extends JFrame {
         add(bottomPanel, gbc);
 
         //setVisible(true);
-        startButton.addActionListener(e -> {
+        /*startButton.addActionListener(e -> {
             Staff.startSimulationForAllStaff();  // 唤醒所有等待的员工线程
+        });*/
+    }
+
+    public void setStaffController(controller.StaffController staffController) {
+        this.staffController = staffController;
+    
+        // ===== Start Simulation =====
+        startButton.addActionListener(e -> {
+            Staff.startSimulationForAllStaff();
+            startButton.setEnabled(false);
         });
+    
+        // ===== Add Staff =====
+        addStaffButton.addActionListener(e -> {
+            staffController.addStaff();
+        });
+    
+        // ===== Remove Staff =====
+        removeStaffButton.addActionListener(e -> {
+            staffController.removeStaff();
+        });
+
+        
     }
 
     private JTextArea createStaffTextArea(String title) {

@@ -65,6 +65,7 @@ public class Main {
 
             StaffController staffController = new StaffController(customerQueue, stateGUI);
             staffController.startInitialStaff();
+            stateGUI.setStaffController(staffController);
         });
     }
 }
