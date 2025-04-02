@@ -15,6 +15,7 @@ import fileRead.OrdersFileRead;
 import main.Basket;
 import main.MenuItem;
 import main.Order;
+import model.CustomerQueue;
 
 class TestBasket {
     private Basket basket;
@@ -118,7 +119,7 @@ class TestBasket {
     @DisplayName("Test to confirm order: no order when cart is empty, order correctly added and cart emptied after confirmation")
     public void testConfirmOrder() throws InvalidOrdersFileReadException {
         // Test order confirmation when shopping cart is empty
-        basket.confirmOrder();
+        basket.confirmOrder(false);
         assertEquals(0, basket.getItems().size()); // Shopping cart is empty, order will not be added
 
         // Add item
@@ -141,8 +142,8 @@ class TestBasket {
         existingOrders.readCSVAndStoreData("ASE coffeeshop/src/Orders.csv"); // Read the order file first
         Integer lastOrderIDBefore = OrdersFileRead.getLastOrderNumber();
 
-        // Confirmation of orders
-        basket.confirmOrder();
+        // Test regular orders
+        basket.confirmOrder(false);  // Pass false and add to the regular queue
         
         // Checks for a successful write to existingOrder
         LinkedHashMap<Integer, Order> existingOrder = OrdersFileRead.existingOrder;
@@ -171,5 +172,22 @@ class TestBasket {
         
         // Check if shopping cart is emptied
         assertEquals(0, basket.getItems().size());
+        
+        // Test priority order
+        basket.addItem(item);
+        basket.addItem(item2);
+        basket.confirmOrder(true);  // Pass true and add to the priority queue
+
+        // Ensure that the order enters the 'priorityQueue'
+        CustomerQueue queue = CustomerQueue.getInstance();
+        LinkedHashMap<Integer, Order> priorityOrder = queue.getNextCustomer();
+        assertNotNull(priorityOrder);
+        assertEquals(2, priorityOrder.size());  // Ensure there are 2 orders
+
+        // Verify the order content of the priority queue
+        Order priorityOrder1 = priorityOrder.values().iterator().next();
+        assertEquals("COFFEE001", priorityOrder1.getItemID());
+
+        System.out.println("Test successful: Both regular and priority orders were processed correctly!");
     }
 }
