@@ -67,7 +67,7 @@ public class Basket {
 	}
 	
 	// Confirm order: Convert the items in the shopping cart into an order and store it in existingOrder
-    public void confirmOrder() {
+    public void confirmOrder(boolean isPriorityOrder) {
         if (menuItems.isEmpty()) {
             System.out.println("The shopping basket is empty, unable to submit order!");
             return;
@@ -110,11 +110,15 @@ public class Basket {
         String newOrdersFileName = "ASE coffeeshop/src/newOrders.csv";
         ordersFileRead.writeOrdersToCSV(newOrdersFileName);
 
-	// Add the orders to the CustomerQueue
+        // Add the orders to the CustomerQueue or online priority CustomerQueue
         CustomerQueue queue = CustomerQueue.getInstance();
-        queue.addCustomer(newOrders);
-
-        System.out.println("The new order has been confirmed and saved!");
+        if (isPriorityOrder) {
+            queue.addPriorityCustomer(newOrders);  // Add to priority queue
+            System.out.println("The online order has been confirmed and saved!");
+        } else {
+            queue.addCustomer(newOrders);  // Add to regular queue
+            System.out.println("The new order has been confirmed and saved!");
+        }
     }
 }
 
