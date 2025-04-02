@@ -20,10 +20,14 @@ import main.Logger;
 public class CustomerQueue {
     private static CustomerQueue instance = null;
     private final LinkedList<LinkedHashMap<Integer, Order>> queue;
+    private final LinkedList<LinkedHashMap<Integer, Order>> priorityQueue;
+    private static final int MAX_CAPACITY = 20;  // Limit the maximum number of customers
+    private static Logger logger = Logger.getInstance();
 
     // Constructor function
     private CustomerQueue() {
         queue = new LinkedList<>();
+        priorityQueue = new LinkedList<>();
     }
 
     // Get a single instance of CustomerQueue
@@ -35,19 +39,27 @@ public class CustomerQueue {
     }
     
     /**
-	 * Get the ArrayList of whole orders
+	 * Get the LinkedList of whole orders
 	 * @return queue of customer orders
 	 */
 	public LinkedList<LinkedHashMap<Integer, Order>> getQueue() {
 		return queue;
 	}
 	
+	/**
+	 * Get the LinkedList of online orders
+	 * @return queue of online customer orders
+	 */
+	public LinkedList<LinkedHashMap<Integer, Order>> getPriorityQueue() {
+		return priorityQueue;
+	}
+	
     /**
-     * Get the size of the queue -- the amount of the waiting customer
-     * @return the size of the queue
+     * Get the size of the queue and priority queue -- the amount of the waiting customer
+     * @return the size of the queue + priorityQueue
      */
     public synchronized int getQueueSize() {
-        return queue.size();
+        return queue.size() + priorityQueue.size();
     }
 
     /**
@@ -77,7 +89,7 @@ public class CustomerQueue {
             
         	queue.addLast(customerOrders);
             
-            Logger.getInstance().info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
+            logger.info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
         }
 
         notifyAll(); // Wake up waiting threads
@@ -88,6 +100,15 @@ public class CustomerQueue {
      * @param customer orders(from basket): customerOrders（LinkedHashMap<Integer, Order>）
      */
     public synchronized void addCustomer(LinkedHashMap<Integer, Order> customerOrders) {
+    	while (queue.size() + priorityQueue.size() >= MAX_CAPACITY) {
+            try {
+            	logger.info("Customer queue is full! Waiting for available space...");
+                wait();  // The customer queue is full, the producer is waiting
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    	
         if (customerOrders == null || customerOrders.isEmpty()) {
             throw new IllegalArgumentException("The order cannot be empty!");
         }
@@ -95,8 +116,33 @@ public class CustomerQueue {
         queue.addLast(customerOrders);  // Add to the end of the queue
         
         String customerID = customerOrders.values().iterator().next().getCustomerID();
-        Logger.getInstance().info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
+        logger.info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
         notifyAll();  // Wake up waiting threads
+    }
+    
+    /**
+     * Add online customer orders to the priority queue
+     * @param online customer orders: customerOrders（LinkedHashMap<Integer, Order>）
+     */
+    public synchronized void addPriorityCustomer(LinkedHashMap<Integer, Order> customerOrders) {
+    	while (queue.size() + priorityQueue.size() >= MAX_CAPACITY) {
+            try {
+            	logger.info("Customer queue is full! Waiting for available space...");
+                wait();  // The customer queue is full, the producer is waiting
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    	
+    	if (customerOrders == null || customerOrders.isEmpty()) {
+             throw new IllegalArgumentException("The order cannot be empty!");
+         }
+    	 
+    	priorityQueue.addLast(customerOrders);  // Add to priority queue 
+    	
+    	String customerID = customerOrders.values().iterator().next().getCustomerID();
+        logger.info("Priority Customer " + customerID + " added to priority queue with " + customerOrders.size() + " orders.");
+        notifyAll(); // Wake up waiting threads
     }
 
     /**
@@ -104,21 +150,38 @@ public class CustomerQueue {
      * @return next customer's order list（LinkedHashMap<Integer, Order>）
      */
     public synchronized LinkedHashMap<Integer, Order> getNextCustomer() {
-        while (queue.isEmpty()) {
+        while (queue.isEmpty() && priorityQueue.isEmpty()) {
             try {
-                wait();  // If no customer, waiting
+            	logger.info("Customer queue is empty! Staff waiting...");
+                wait(5000);  // The customer queue is empty, the consumer is waiting 5s
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+            
+            if (queue.isEmpty() && priorityQueue.isEmpty()) {
+            	logger.info("Customer queue is still empty after waiting. Staff stops waiting.");
+                return null;  // Return null after timeout, indicating no customer
+            }
         }
-        //processedCount += queue.peek().size();
-        //return queue.removeFirst();  // Retrieve the first customer from the queue
-        LinkedHashMap<Integer, Order> nextCustomer = queue.removeFirst();
-        String customerID = nextCustomer.values().iterator().next().getCustomerID();
 
-        // Recording logs
-        Logger.getInstance().info("Processing orders for Customer " + customerID + ". Total orders: " + nextCustomer.size());
+        LinkedHashMap<Integer, Order> nextCustomer;
+        if (!priorityQueue.isEmpty()) {
+        	// Process orders in the priority queue first
+        	nextCustomer = priorityQueue.removeFirst(); // Retrieve the first customer from the priority queue
+            String customerID = nextCustomer.values().iterator().next().getCustomerID();
 
+            // Recording logs
+            logger.info("Processing orders for Customer " + customerID + ". Total orders: " + nextCustomer.size());
+        } else {
+        	// Then process regular orders
+        	nextCustomer = queue.removeFirst(); // Retrieve the first customer from the queue
+            String customerID = nextCustomer.values().iterator().next().getCustomerID();
+
+            // Recording logs
+            logger.info("Processing orders for Customer " + customerID + ". Total orders: " + nextCustomer.size());
+        }
+        
+        notifyAll(); // Wake up waiting threads
         return nextCustomer;
     }
     
