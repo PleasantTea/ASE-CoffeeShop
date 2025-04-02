@@ -12,6 +12,7 @@ import java.awt.Toolkit;
 import javax.swing.SwingUtilities;
 import view.CoffeeShopGUI;
 import view.StateDisplayGUI;
+import view.StartGUI;
 import controller.StaffController;
 import controller.QueueController;
 
@@ -44,7 +45,8 @@ public class Main {
             //new CoffeeShopGUI(menuFileReader, basket).setVisible(true);
             //new StateDisplayGUI();  // 这行是新加的
             
-            CoffeeShopGUI coffeeGUI = new CoffeeShopGUI(menuFileReader, basket);
+            //CoffeeShopGUI coffeeGUI = new CoffeeShopGUI(menuFileReader, basket, orderType, startGUI);
+            StartGUI startGUI = new StartGUI();
             StateDisplayGUI stateGUI = new StateDisplayGUI();
 
             // 获取屏幕尺寸
@@ -52,9 +54,9 @@ public class Main {
             int screenWidth = screenSize.width;
             int screenHeight = screenSize.height;
 
-            // 设置 CoffeeShopGUI 在屏幕左侧
-            coffeeGUI.setLocation(100, (screenHeight - coffeeGUI.getHeight()) / 2);
-            coffeeGUI.setVisible(true);
+            // 设置 CoffeeShopGUI 在屏幕左侧            
+            startGUI.setLocation(100, (screenHeight - startGUI.getHeight()) / 2);
+            startGUI.setVisible(true);
 
             // 设置 StateDisplayGUI 在屏幕右侧
             stateGUI.setLocation(screenWidth - stateGUI.getWidth() - 100, (screenHeight - stateGUI.getHeight()) / 2);

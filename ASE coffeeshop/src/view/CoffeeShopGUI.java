@@ -36,10 +36,14 @@ public class CoffeeShopGUI extends JFrame {
     private Basket basket;
     private MenuItem currentListSelection;
     private boolean isReportGenerated = false;
+    private String orderType;
+    private StartGUI startGUI; // Reference to StartGUI
 
-    public CoffeeShopGUI(MenuFileRead menuFileReader, Basket basket) {
+    public CoffeeShopGUI(MenuFileRead menuFileReader, Basket basket, String orderType, StartGUI startGUI) {
         this.menuFileReader = menuFileReader;
         this.basket = basket;
+        this.orderType = orderType;
+        this.startGUI = startGUI;
         createView();
         initBtnActions();
         setTitle("ASE Coffee Shop");
@@ -178,7 +182,7 @@ public class CoffeeShopGUI extends JFrame {
         p.insets = new Insets(0, 0, 0, 0);
 
 		/**QUIT BUTTON*/
-		buttonQuit = new JButton("   Quit   ");
+		buttonQuit = new JButton("   Return   ");
 		p.gridx = 3;
 		p.gridy = 9;
 		p.insets = new Insets(20, 0, 0, 0);
@@ -213,7 +217,11 @@ public class CoffeeShopGUI extends JFrame {
         
         buttonConfirm.addActionListener(e -> {
             if (!basket.getItems().isEmpty()) {
-                basket.confirmOrder(false);
+                if ("online".equals(orderType)) {
+                    basket.confirmOrder(true);
+                } else {
+                	basket.confirmOrder(false);
+                }
                 JOptionPane.showMessageDialog(null, "Order Confirmed");
                 displayBasket();
                 setPrice();
@@ -235,11 +243,10 @@ public class CoffeeShopGUI extends JFrame {
             JOptionPane.showMessageDialog(null, "Report generated successfully!");
         });*/
 
-        buttonQuit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {             
-                System.exit(0);
-            }
+        
+        buttonQuit.addActionListener(e -> {
+            dispose();                      
+            startGUI.setVisible(true);// Show the StartGUI again           
         });
         
     }
