@@ -3,20 +3,18 @@ package model;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 import main.Logger;
 import main.Order;
 import view.StateDisplayGUI;
 
-
 public class Staff extends Thread {
-    private int staffNumber;  //Attendant No.
+    private int staffNumber;  // Attendant No
     private int speed = 3;  // Used to simulate the speed at which orders are processed
-    private boolean isFinished = false;  // Used to mark whether the waiter has completed his or her work   
-    private boolean closingShop = false;  // Used to mark whether the coffeeshop has 
-    private boolean isCancelled = false;
     private String currentTask;
-    private CustomerQueue customerQueue = CustomerQueue.getInstance();  //client queue
-    private LinkedHashMap<Integer,Order> currentCustomer;
+    private boolean isCancelled = false;
+    private CustomerQueue customerQueue = CustomerQueue.getInstance();
+    private LinkedHashMap<Integer, Order> currentCustomer;
     
     private StateDisplayGUI view;
     private static Logger logger = Logger.getInstance();
@@ -24,6 +22,8 @@ public class Staff extends Thread {
     private static boolean simulationStarted = false;
     private static final Object lock = new Object();
 
+    private static AtomicInteger activeStaffCount = new AtomicInteger(0); // Counting the number of working staff threads
+    
     /**
      * This is the constructor of the Staff class
      * @param staffNumber - this is the number of the stuff
@@ -34,144 +34,119 @@ public class Staff extends Thread {
         this.staffNumber = Math.round(staffNumber);
         this.customerQueue = customerQueue;
         this.view = view;
-        currentTask = staffNumber + " is waiting for orders in the queue";
-        logger.info("STAFF MEMBER " + currentTask);
-        view.setStaffText(this.staffNumber, currentTask);  // 初始状态显示
+        currentTask = "Staff " + staffNumber + " is waiting for orders";
+        logger.info(currentTask);
+        view.setStaffText(this.staffNumber, currentTask); // Initial status display
     }
+
     /**
      * This method is used for getting the current costumer
      * @return the current costumer
      */
-    public LinkedHashMap<Integer,Order> GetCurrentCustomer()
-	{
-    	return currentCustomer;
-	}
-
-    // This method is used to make the staff thread run
-    public void run() { 
+    public LinkedHashMap<Integer, Order> GetCurrentCustomer() {
+        return currentCustomer;
+    }
+    
+    /**
+     * This method is used to make the staff thread run
+     */
+    public void run() {
         synchronized (lock) {
             while (!simulationStarted) {
                 try {
-                    lock.wait();  // 等待用户点击按钮
+                    lock.wait();  // Waiting for the user to click the start button
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    //Thread.currentThread().interrupt();
+                	e.printStackTrace();
                 }
             }
         }
-
+        
         if (isCancelled) {
             currentTask = staffNumber + " was removed before simulation started.";
             logger.info("STAFF MEMBER " + currentTask);
-            view.setStaffText(staffNumber, "");  // 清空面板
-            return;  // 终止线程运行
+            view.setStaffText(staffNumber, "");  // Clear Panel
+            return;  // Terminate the thread
         }
         
-    	/*while (queueCustomer.size() == 0 && isFinished == false) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
-    	
-    	while (customerQueue.getQueueSize() >= 0) {
-    		Random random = new Random();
-            int currentSpeed = this.speed;
-    		int low = 3600 / currentSpeed; //1200
-            int high = 18000 / currentSpeed;   //6000
-            int result = random.nextInt(high - low) + low;
-    	                
-            try {
-            	currentCustomer = customerQueue.getNextCustomer();		
+        activeStaffCount.incrementAndGet(); // +1 at thread startup
 
-            	if (currentCustomer == null) { 
-            		logger.info("No more customers, need to close.");
-                    break;  // Exit after timeout
+        while (true) {
+            try {
+                currentCustomer = customerQueue.getNextCustomer();
+
+                if (currentCustomer == null) {
+                    logger.info("No more customers, need to close.");
+                    break; // Exit thread
                 }
-		
-            	//Integer customerID = currentCustomer.keySet().iterator().next(); // 获取第一个键（客户ID）
+
                 String customerID = currentCustomer.values().iterator().next().getCustomerID();
-            	StringBuilder orderDetails = new StringBuilder();
-            	Float total = customerQueue.getCurrentCustomerTotalAmountBeforeDiscount(currentCustomer);
-            	Float discount = customerQueue.getCurrentCustomerDiscount(currentCustomer);
-            	String discountText;
-            	if(discount == 0) {
-            		discountText = " (no discount)";
-            	} else {
-            		discountText =  " (with " + discount + " discount)";
-            	}
-            	total = total - discount;
-            	// 遍历客户的所有订单
-            	for (Order order : currentCustomer.values()) {
-            	    // 获取订单中的物品信息，并将其添加到 orderDetails 中
-            	    orderDetails.append(order.getItemName()).append("\n");
-            	}
+                StringBuilder orderDetails = new StringBuilder();
+                Float total = customerQueue.getCurrentCustomerTotalAmountBeforeDiscount(currentCustomer);
+                Float discount = customerQueue.getCurrentCustomerDiscount(currentCustomer);
+                String discountText = (discount == 0) ? " (no discount)" : " (with " + discount + " discount)";
+                total -= discount;
 
-            	// 构造最终的任务描述，显示该客户的所有订单信息
-            	currentTask = "processing customer " + customerID + "'s order: \n" + orderDetails.toString() + " Total: " + total + discountText;
-            	logger.info("Staff member " + staffNumber + " is " + currentTask);
-				
-				view.setStaffText(staffNumber, currentTask);  // 
+                for (Order order : currentCustomer.values()) {
+                    orderDetails.append(order.getItemName()).append("\n");
+                }
 
-				try {
+                currentTask = "Processing " + customerID + "'s order: \n" + orderDetails + "\nTotal: " + total + discountText;
+                logger.info("Staff member " + staffNumber + " is " + currentTask);
+                view.setStaffText(staffNumber, currentTask);
+
+                Random random = new Random();
+                int low = 6000 / speed;
+                int high = 30000 / speed;
+                int result = random.nextInt(high - low) + low;
+                Thread.sleep(result);
+                
+                try {
 					Thread.sleep(result);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+                
+                currentTask = "Completed " + customerID + "'s order";
+                logger.info("Staff member " + staffNumber + " " + currentTask);
+                view.setStaffText(staffNumber, currentTask);
+                
+                try {
+                    //result = random.nextInt(high - low) + low;
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-				currentTask =  "completed customer " + customerID + "'s order";	
-				logger.info("Staff member " + staffNumber + " " + currentTask);
-				
-				view.setStaffText(staffNumber, currentTask);  // 			
-			} catch (NullPointerException e) {
-				continue;
-			}
+                // 让员工回到等待状态
+                currentTask = "Staff " + staffNumber + " is ready to take an order";
+                logger.info(currentTask);
+                view.setStaffText(staffNumber, currentTask);
 
-            try {
-                result = random.nextInt(high - low) + low;
-                Thread.sleep(result);
             } catch (InterruptedException e) {
-                e.printStackTrace();
-
+                Thread.currentThread().interrupt();
+                break;
             }
-            currentTask = staffNumber + " is ready to take an order";
-            logger.info("Staff member " + currentTask);
-            view.setStaffText(staffNumber, currentTask);  // 
         }
 
-        if (isFinished==false) {
-            currentTask = staffNumber + " is closing the shop";
-            logger.info("STAFF MEMBER " + currentTask);
-            closingShop = Logger.getInstance().print();
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        // 线程退出时 -1
+        int remainingStaff = activeStaffCount.decrementAndGet();
 
-            if (closingShop) {
-                Logger.getInstance().printFile();
-            } else {
-                currentTask = staffNumber + " is cleaning up";
-                logger.info("STAFF MEMBER " + currentTask);
-            }
+        // 如果当前是最后一个 staff 线程，则写入日志文件
+        if (remainingStaff == 0) {
+            logger.info("All staff have finished their work. Writing log to file.");
+            Logger.getInstance().printFile();
         }
     }
 
-
-    /**
-     * This method is used to know what the staff member is currently doing
-     * @return the current task
-     */
     public String GetCurrentStaffTask() {
         return currentTask;
     }
-
+    
     public int getStaffNumber() {
         return staffNumber;
     }
-
-
+    
     /**
      * This method sets the speed of the process
      * @param speed
@@ -180,23 +155,26 @@ public class Staff extends Thread {
         logger.info("Changed staff: " + staffNumber + " speed: " + speed);
         this.speed = speed;
     }
-
+    
     /**
      * This method display staff that has finished the job
      */
     public void finish() {
         logger.info("Staff finished: " + staffNumber);
-        this.isFinished = true;
         this.isCancelled = true; 
     }
+    
     public static void startSimulationForAllStaff() {
         synchronized (lock) {
             simulationStarted = true;
             lock.notifyAll();
         }
     }
+
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Staff staff = (Staff) o;
         return staffNumber == staff.staffNumber;
     }
@@ -206,3 +184,5 @@ public class Staff extends Thread {
         return Objects.hash(staffNumber);
     }
 }
+
+
