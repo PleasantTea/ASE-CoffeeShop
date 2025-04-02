@@ -1,13 +1,9 @@
 package model;
 
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Queue;
 import java.util.Random;
-import javax.swing.JTextArea;
 import main.Logger;
-import model.CustomerQueue;
 import main.Order;
 import view.StateDisplayGUI;
 
@@ -23,7 +19,6 @@ public class Staff extends Thread {
     private LinkedHashMap<Integer,Order> currentCustomer;
     
     private StateDisplayGUI view;
-    private JTextArea panel;
     private static Logger logger = Logger.getInstance();
     
     private static boolean simulationStarted = false;
@@ -68,7 +63,7 @@ public class Staff extends Thread {
             currentTask = staffNumber + " was removed before simulation started.";
             logger.info("STAFF MEMBER " + currentTask);
             view.setStaffText(staffNumber, "");  // 清空面板
-            return;  // ✅ 终止线程运行
+            return;  // 终止线程运行
         }
         
     	/*while (queueCustomer.size() == 0 && isFinished == false) {
@@ -89,12 +84,12 @@ public class Staff extends Thread {
             try {
             	currentCustomer = customerQueue.getNextCustomer();		
 
-		if (currentCustomer == null) { 
+            	if (currentCustomer == null) { 
             		logger.info("No more customers, need to close.");
                     break;  // Exit after timeout
                 }
 		
-		//Integer customerID = currentCustomer.keySet().iterator().next(); // 获取第一个键（客户ID）
+            	//Integer customerID = currentCustomer.keySet().iterator().next(); // 获取第一个键（客户ID）
                 String customerID = currentCustomer.values().iterator().next().getCustomerID();
             	StringBuilder orderDetails = new StringBuilder();
             	Float total = customerQueue.getCurrentCustomerTotalAmountBeforeDiscount(currentCustomer);
@@ -115,7 +110,6 @@ public class Staff extends Thread {
             	// 构造最终的任务描述，显示该客户的所有订单信息
             	currentTask = "processing customer " + customerID + "'s order: \n" + orderDetails.toString() + " Total: " + total + discountText;
             	logger.info("Staff member " + staffNumber + " is " + currentTask);
-            
 				
 				view.setStaffText(staffNumber, currentTask);  // 
 
@@ -212,6 +206,3 @@ public class Staff extends Thread {
         return Objects.hash(staffNumber);
     }
 }
-
-
-
