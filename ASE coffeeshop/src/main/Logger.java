@@ -8,33 +8,13 @@ import main.ReportGenerator;
 public class Logger {
 	 private static volatile Logger instance;
 	    private static Object mutex = new Object();
-	    private boolean printed;
 	    String logstring = "";
-
-	    /**
-	     * Sets printed to false;
-	     */
-	    private Logger() {
-	        printed = false;
-	    }
 
 	    
 	    /**
 	     * Constructor of the logger class. Creates a new singleton instance of logger only if there is no other active logger.
 	     * @return returns the logger singleton.
 	     */
-	    /*
-	    public static Logger getInstance() {
-	        Logger result = instance;
-	        if (result == null) {
-	            synchronized (mutex) {
-	                result = instance;
-	                if (result == null)
-	                    instance = result = new Logger();
-	            }
-	        }
-	        return result;
-	    }*/
 	    public static Logger getInstance() {
 	        if (instance == null) {
 	            synchronized (mutex) {
@@ -58,16 +38,6 @@ public class Logger {
 	        logstring += a;
 	    }
 	  
-	    /**
-	     * @return Returns if the logger has already printed the log. This method can only be accessed by one thread at at time.
-	     */
-	    public synchronized boolean print() {
-	        if (!printed) {
-	            printed = true;
-	            return true;
-	        }
-	        return false;
-	    }
 
 	    /**
 	     * Prints the messages stored in the log to the Log file.
@@ -79,7 +49,8 @@ public class Logger {
 	            out.println(logstring);
 	            out.close();
 				ReportGenerator.getInstance().generateReport();
-				System.out.println("Report generated successfully!");
+				info("Report generated successfully!");
+				info("CoffeeShop APP is closed.");
 	            System.exit(0);
 	        } catch (IOException e) {
 	            e.printStackTrace();
