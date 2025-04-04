@@ -100,13 +100,10 @@ public class CustomerQueue {
      * @param customer orders(from basket): customerOrders（LinkedHashMap<Integer, Order>）
      */
     public synchronized void addCustomer(LinkedHashMap<Integer, Order> customerOrders) {
-    	while (queue.size() + priorityQueue.size() >= MAX_CAPACITY) {
-            try {
-            	logger.info("Customer queue is full! Waiting for available space...");
-                wait();  // The customer queue is full, the producer is waiting
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+    	// The customer queue is full, the producer is refused and show false
+        if (queue.size() + priorityQueue.size() >= MAX_CAPACITY) {
+            logger.info("Customer queue is full! Order rejected.");
+            throw new IllegalStateException("The customer queue is full! Please try again later.");
         }
     	
         if (customerOrders == null || customerOrders.isEmpty()) {
@@ -125,13 +122,10 @@ public class CustomerQueue {
      * @param online customer orders: customerOrders（LinkedHashMap<Integer, Order>）
      */
     public synchronized void addPriorityCustomer(LinkedHashMap<Integer, Order> customerOrders) {
-    	while (queue.size() + priorityQueue.size() >= MAX_CAPACITY) {
-            try {
-            	logger.info("Customer queue is full! Waiting for available space...");
-                wait();  // The customer queue is full, the producer is waiting
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+    	// The customer queue is full, the producer is refused and show false
+        if (queue.size() + priorityQueue.size() >= MAX_CAPACITY) {
+            logger.info("Customer queue is full! Order rejected.");
+            throw new IllegalStateException("The customer queue is full! Please try again later.");
         }
     	
     	if (customerOrders == null || customerOrders.isEmpty()) {
@@ -180,8 +174,6 @@ public class CustomerQueue {
             // Recording logs
             logger.info("Processing orders for Customer " + customerID + ". Total orders: " + nextCustomer.size());
         }
-        
-        notifyAll(); // Wake up waiting threads
         return nextCustomer;
     }
     
