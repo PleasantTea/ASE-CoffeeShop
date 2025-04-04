@@ -216,7 +216,7 @@ public class CoffeeShopGUI extends JFrame {
         });
         
         buttonConfirm.addActionListener(e -> {
-            if (!basket.getItems().isEmpty()) {
+            /*if (!basket.getItems().isEmpty()) {
                 if ("online".equals(orderType)) {
                     basket.confirmOrder(true);
                 } else {
@@ -227,7 +227,16 @@ public class CoffeeShopGUI extends JFrame {
                 setPrice();
             } else {
                 JOptionPane.showMessageDialog(null, "Your basket is empty. Add items before confirming.");
+            }*/
+            String confirmMessage;
+            if ("online".equals(orderType)) {
+                confirmMessage = basket.confirmOrder(true);
+            } else {
+            	confirmMessage = basket.confirmOrder(false);
             }
+            JOptionPane.showMessageDialog(null, confirmMessage);
+            displayBasket();
+            setPrice();
         });
         
         buttonCancel.addActionListener(e -> {   
