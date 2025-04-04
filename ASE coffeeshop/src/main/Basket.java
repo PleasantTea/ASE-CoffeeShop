@@ -67,10 +67,10 @@ public class Basket {
 	}
 	
 	// Confirm order: Convert the items in the shopping cart into an order and store it in existingOrder
-    public void confirmOrder(boolean isPriorityOrder) {
+    public String confirmOrder(boolean isPriorityOrder) {
         if (menuItems.isEmpty()) {
             System.out.println("The shopping basket is empty, unable to submit order!");
-            return;
+            return "Your basket is empty. Add items before confirming.";
         }
 
         // Get latest OrderID
@@ -98,26 +98,32 @@ public class Basket {
 
             newOrders.put(order.getOrderID(), order);
         }
+        
+        try {
+        	// Add the orders to the CustomerQueue or online priority CustomerQueue
+            CustomerQueue queue = CustomerQueue.getInstance();
+            if (isPriorityOrder) {
+                queue.addPriorityCustomer(newOrders);  // Add to priority queue
+                System.out.println("The online order has been confirmed and saved!");
+            } else {
+                queue.addCustomer(newOrders);  // Add to regular queue
+                System.out.println("The new order has been confirmed and saved!");
+            }
+            
+            // Save orders
+            OrdersFileRead ordersFileRead = new OrdersFileRead();
+            ordersFileRead.saveNewOrdersInExistingOrders(newOrders);
 
-        // Save orders
-        OrdersFileRead ordersFileRead = new OrdersFileRead();
-        ordersFileRead.saveNewOrdersInExistingOrders(newOrders);
+            // Clear basket
+            clearBasket();
 
-        // Clear basket
-        clearBasket();
-
-        // Write into CSV
-        String newOrdersFileName = "ASE coffeeshop/src/newOrders.csv";
-        ordersFileRead.writeOrdersToCSV(newOrdersFileName);
-
-        // Add the orders to the CustomerQueue or online priority CustomerQueue
-        CustomerQueue queue = CustomerQueue.getInstance();
-        if (isPriorityOrder) {
-            queue.addPriorityCustomer(newOrders);  // Add to priority queue
-            System.out.println("The online order has been confirmed and saved!");
-        } else {
-            queue.addCustomer(newOrders);  // Add to regular queue
-            System.out.println("The new order has been confirmed and saved!");
+            // Write into CSV
+            String newOrdersFileName = "ASE coffeeshop/src/newOrders.csv";
+            ordersFileRead.writeOrdersToCSV(newOrdersFileName);
+            
+            return "Order Confirmed";
+        } catch (IllegalStateException e) {
+        	return "Order failed: Customer queue is full, please try again later!";
         }
     }
 }
