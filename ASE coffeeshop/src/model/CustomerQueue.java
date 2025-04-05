@@ -97,7 +97,7 @@ public class CustomerQueue {
     
     /**
      * Add customer orders(from basket) to the queue
-     * @param customer orders(from basket): customerOrders（LinkedHashMap<Integer, Order>）
+     * @param customer orders(from basket): customerOrders (LinkedHashMap<Integer, Order>)
      */
     public synchronized void addCustomer(LinkedHashMap<Integer, Order> customerOrders) {
     	// The customer queue is full, the producer is refused and show false
@@ -119,7 +119,7 @@ public class CustomerQueue {
     
     /**
      * Add online customer orders to the priority queue
-     * @param online customer orders: customerOrders（LinkedHashMap<Integer, Order>）
+     * @param online customer orders: customerOrders (LinkedHashMap<Integer, Order>)
      */
     public synchronized void addPriorityCustomer(LinkedHashMap<Integer, Order> customerOrders) {
     	// The customer queue is full, the producer is refused and show false
@@ -141,7 +141,7 @@ public class CustomerQueue {
 
     /**
      * Get the next customer's order list
-     * @return next customer's order list（LinkedHashMap<Integer, Order>）
+     * @return next customer's order list (LinkedHashMap<Integer, Order>)
      */
     public synchronized LinkedHashMap<Integer, Order> getNextCustomer() {
         while (queue.isEmpty() && priorityQueue.isEmpty()) {
