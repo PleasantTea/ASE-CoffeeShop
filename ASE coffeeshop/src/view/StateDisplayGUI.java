@@ -17,53 +17,42 @@ public class StateDisplayGUI extends JFrame {
         setSize(700, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setLayout(new GridBagLayout()); // 使用 GridBagLayout
+        setLayout(new GridBagLayout()); 
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.weightx = 1.0;
-        gbc.insets = new Insets(5, 5, 5, 5); // 内边距
+        gbc.insets = new Insets(5, 5, 5, 5); 
 
-        // ===== 第一栏：顾客排队订单 =====
-        /*JPanel queuePanel = new JPanel(new BorderLayout());
-        queuePanel.setBorder(BorderFactory.createTitledBorder("Queuing orders"));
-        queueTextArea = new JTextArea();
-        queueTextArea.setEditable(false);
-        queuePanel.add(new JScrollPane(queueTextArea), BorderLayout.CENTER);
-
-        gbc.gridy = 0;
-        gbc.weighty = 0.50; // 高度较大
-        add(queuePanel, gbc);*/
-        // ===== 第一栏：顾客排队订单（普通 + 线上优先）=====
+        // ===== First: Customer queued orders =====
         JPanel queueSplitPanel = new JPanel(new GridLayout(1, 2, 10, 0));
         queueSplitPanel.setBorder(BorderFactory.createTitledBorder("Order Queues"));
 
-        // --- 普通队列 ---
+        // Normal queue
         JPanel regularQueuePanel = new JPanel(new BorderLayout());
         regularQueuePanel.setBorder(BorderFactory.createTitledBorder("In-store Orders"));
         queueTextArea = new JTextArea();
         queueTextArea.setEditable(false);
         regularQueuePanel.add(new JScrollPane(queueTextArea), BorderLayout.CENTER);
 
-        // --- 线上优先队列 ---
+        // Online queue
         JPanel onlineQueuePanel = new JPanel(new BorderLayout());
         onlineQueuePanel.setBorder(BorderFactory.createTitledBorder("Online Orders"));
-        onlineQueueTextArea = new JTextArea(); // 你需要在类中新增这个变量
+        onlineQueueTextArea = new JTextArea(); 
         onlineQueueTextArea.setEditable(false);
         onlineQueuePanel.add(new JScrollPane(onlineQueueTextArea), BorderLayout.CENTER);
 
-        // 添加到 split 容器中
+        // Add to split container
         queueSplitPanel.add(regularQueuePanel);
         queueSplitPanel.add(onlineQueuePanel);
 
         gbc.gridy = 0;
-        gbc.weighty = 0.50; // 高度较大
+        gbc.weighty = 0.50; 
         add(queueSplitPanel, gbc);
 
 
-
-        // ===== 第二栏：员工工作状态（3列）=====
+        // ===== Second: Employee work status =====
         JPanel staffPanel = new JPanel(new GridLayout(1, 3, 10, 10));
         staffPanel.setBorder(BorderFactory.createTitledBorder("Employee work status"));
 
@@ -76,10 +65,10 @@ public class StateDisplayGUI extends JFrame {
         staffPanel.add(staff3TextArea);
 
         gbc.gridy = 1;
-        gbc.weighty = 0.45; // 高度较小
+        gbc.weighty = 0.45; 
         add(staffPanel, gbc);
 
-        // ===== 第三栏：滑块 + 控制按钮 =====
+        // ===== Third: Speed Adjustment =====
         JPanel sliderPanel = new JPanel(new BorderLayout());
         sliderPanel.setBorder(BorderFactory.createTitledBorder("Order processing speed"));
         speedSlider = new JSlider(JSlider.HORIZONTAL, 1, 5, 3);
@@ -90,14 +79,14 @@ public class StateDisplayGUI extends JFrame {
 
         // Add listener to speed slider to update staff processing speed
         speedSlider.addChangeListener(e -> {
-            int speed = speedSlider.getValue(); // 值范围 1~5
+            int speed = speedSlider.getValue(); // Value range 1~5
             if (staffController != null) {
                 staffController.setAllStaffSpeed(speed);
                 System.out.println("Slider changed: set all staff speed to " + speed);
             }
         });
 
-
+        // ===== Fourth: Control button =====
         JPanel buttonPanel = new JPanel();
         startButton = new JButton("Start Simulation");
         addStaffButton = new JButton("Add Staff");
@@ -111,35 +100,28 @@ public class StateDisplayGUI extends JFrame {
         bottomPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         gbc.gridy = 2;
-        gbc.weighty = 0.05; // 高度中等
+        gbc.weighty = 0.05; 
         add(bottomPanel, gbc);
-
-        //setVisible(true);
-        /*startButton.addActionListener(e -> {
-            Staff.startSimulationForAllStaff();  // 唤醒所有等待的员工线程
-        });*/
     }
 
     public void setStaffController(controller.StaffController staffController) {
         this.staffController = staffController;
     
-        // ===== Start Simulation =====
+        // Start Simulation 
         startButton.addActionListener(e -> {
             Staff.startSimulationForAllStaff();
             startButton.setEnabled(false);
         });
     
-        // ===== Add Staff =====
+        // Add Staff 
         addStaffButton.addActionListener(e -> {
             staffController.addStaff();
         });
     
-        // ===== Remove Staff =====
+        // Remove Staff 
         removeStaffButton.addActionListener(e -> {
             staffController.removeStaff();
         });
-
-        
     }
 
     private JTextArea createStaffTextArea(String title) {
@@ -157,7 +139,6 @@ public class StateDisplayGUI extends JFrame {
         SwingUtilities.invokeLater(() -> onlineQueueTextArea.setText(text));
     }
     
-
     public void setStaffText(int staffNumber, String text) {
         SwingUtilities.invokeLater(() -> {
             switch (staffNumber) {
@@ -168,9 +149,4 @@ public class StateDisplayGUI extends JFrame {
             }
         });
     }
-    
-
-    /*public static void main(String[] args) {
-        SwingUtilities.invokeLater(StateDisplayGUI::new);
-    }*/
 }

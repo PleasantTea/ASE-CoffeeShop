@@ -11,7 +11,7 @@ public class StaffController {
     private final CustomerQueue queue;
     private final StateDisplayGUI gui;
     private final ArrayList<Staff> staffList;
-    private int staffCounter = 1;  // 记录员工编号
+    private int staffCounter = 1;  // Record employee ID
 
     public StaffController(CustomerQueue queue, StateDisplayGUI gui) {
         this.queue = queue;
@@ -19,7 +19,7 @@ public class StaffController {
         this.staffList = new ArrayList<>();
     }
 
-    // 启动初始员工线程（比如两个）
+    // Start initial employee threads (e.g. two)
     public void startInitialStaff() {
         addStaff();
         addStaff();
@@ -39,9 +39,9 @@ public class StaffController {
     }
 
     public void removeStaff() {
-        if (!staffList.isEmpty()) {
+        if (staffList.size() > 1) {
             Staff staff = staffList.remove(staffList.size() - 1);
-            staff.finish(); // 标记员工完成工作
+            staff.finish(); // Mark employee completion of work
 
             //gui.setStaffText(staff.getStaffNumber(), "");
         } else {
@@ -56,7 +56,7 @@ public class StaffController {
     }
 
     private int findAvailableStaffNumber() {
-        // 1~3 可用编号
+        // 1~3 Available number
         for (int i = 1; i <= 3; i++) {
             boolean taken = false;
             for (Staff s : staffList) {
@@ -67,8 +67,6 @@ public class StaffController {
             }
             if (!taken) return i;
         }
-        return staffCounter++; // fallback（理论上不会执行到）
+        return staffCounter++; // fallback
     }
-
-    
 }
