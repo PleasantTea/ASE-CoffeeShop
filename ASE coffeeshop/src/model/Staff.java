@@ -129,14 +129,14 @@ public class Staff extends Thread {
                     e.printStackTrace();
                 }
                 
-                // ✅ 完成订单后判断是否需要退出
+                // Determine if you need to exit after completing an order
                 if (shouldTerminateAfterCurrentOrder) {
                     logger.info("Staff " + staffNumber + " has completed their final order and is now being removed.");
                     view.setStaffText(staffNumber, "");
                     break;
                 }
 
-                // 让员工回到等待状态
+                // Putting employees back on hold
                 currentTask = "Staff " + staffNumber + " is ready to take an order";
                 logger.info(currentTask);
                 view.setStaffText(staffNumber, currentTask);
@@ -147,18 +147,14 @@ public class Staff extends Thread {
             }
         }
 
-        // 线程退出时 -1
+        // -1 on thread exit
         int remainingStaff = activeStaffCount.decrementAndGet();
 
-        // 如果当前是最后一个 staff 线程，则写入日志文件
+        // If it is currently the last staff thread, write to the log file
         if (remainingStaff == 0) {
             logger.info("All staff have finished their work. Writing log to file.");
             Logger.getInstance().printFile();
         }
-    }
-
-    public String GetCurrentStaffTask() {
-        return currentTask;
     }
     
     public int getStaffNumber() {
@@ -195,18 +191,5 @@ public class Staff extends Thread {
             simulationStarted = true;
             lock.notifyAll();
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Staff staff = (Staff) o;
-        return staffNumber == staff.staffNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(staffNumber);
     }
 }
