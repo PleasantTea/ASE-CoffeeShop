@@ -43,7 +43,7 @@ public class StaffController {
             Staff staff = staffList.remove(staffList.size() - 1);
             staff.finish(); // 标记员工完成工作
 
-            gui.setStaffText(staff.getStaffNumber(), "");
+            //gui.setStaffText(staff.getStaffNumber(), "");
         } else {
             JOptionPane.showMessageDialog(null, "没有更多员工可移除！");
         }
