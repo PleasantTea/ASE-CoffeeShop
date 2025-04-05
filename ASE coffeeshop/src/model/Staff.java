@@ -4,6 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.swing.JOptionPane;
+
 import main.Logger;
 import main.Order;
 import view.StateDisplayGUI;
@@ -13,6 +16,7 @@ public class Staff extends Thread {
     private int speed = 3;  // Used to simulate the speed at which orders are processed
     private String currentTask;
     private boolean isCancelled = false;
+    private boolean shouldTerminateAfterCurrentOrder = false;
     private CustomerQueue customerQueue = CustomerQueue.getInstance();
     private LinkedHashMap<Integer, Order> currentCustomer;
     
@@ -124,6 +128,13 @@ public class Staff extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                
+                // ✅ 完成订单后判断是否需要退出
+                if (shouldTerminateAfterCurrentOrder) {
+                    logger.info("Staff " + staffNumber + " has completed their final order and is now being removed.");
+                    view.setStaffText(staffNumber, "");
+                    break;
+                }
 
                 // 让员工回到等待状态
                 currentTask = "Staff " + staffNumber + " is ready to take an order";
@@ -167,8 +178,16 @@ public class Staff extends Thread {
      * This method display staff that has finished the job
      */
     public void finish() {
-        logger.info("Staff finished: " + staffNumber);
-        this.isCancelled = true; 
+        //logger.info("Staff finished: " + staffNumber);
+        //this.isCancelled = true; 
+    	if (currentCustomer != null) {
+            String customerID = currentCustomer.values().iterator().next().getCustomerID();
+            JOptionPane.showMessageDialog(null, "Staff " + staffNumber + " is currently processing customer " + customerID + "'s order. \nWill remove after completing it.");
+            shouldTerminateAfterCurrentOrder = true;
+        } else {
+            logger.info("Staff finished: " + staffNumber);
+            isCancelled = true;
+        }
     }
     
     public static void startSimulationForAllStaff() {
@@ -191,5 +210,3 @@ public class Staff extends Thread {
         return Objects.hash(staffNumber);
     }
 }
-
-
