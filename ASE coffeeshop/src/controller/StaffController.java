@@ -43,7 +43,7 @@ public class StaffController {
             Staff staff = staffList.remove(staffList.size() - 1);
             staff.finish(); // Mark employee completion of work
 
-            //gui.setStaffText(staff.getStaffNumber(), "");
+            gui.setStaffText(staff.getStaffNumber(), "");
         } else {
             JOptionPane.showMessageDialog(null, "Please do not remove the last staff.");
         }
