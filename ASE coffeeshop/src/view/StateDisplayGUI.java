@@ -142,10 +142,17 @@ public class StateDisplayGUI extends JFrame {
     public void setStaffText(int staffNumber, String text) {
         SwingUtilities.invokeLater(() -> {
             switch (staffNumber) {
-                case 1 -> staff1TextArea.setText(text);
-                case 2 -> staff2TextArea.setText(text);
-                case 3 -> staff3TextArea.setText(text);
-                default -> {}
+                case 1:
+                    staff1TextArea.setText(text);
+                    break;
+                case 2:
+                    staff2TextArea.setText(text);
+                    break;
+                case 3:
+                    staff3TextArea.setText(text);
+                    break;
+                default:
+                    break;
             }
         });
     }

@@ -45,7 +45,7 @@ public class Logger {
 	    public void printFile() {
 	        try {
 	            System.out.println("PRINTED");
-	            PrintWriter out = new PrintWriter(new FileWriter("ASE coffeeshop/src/logFiles/LoggerFile.txt", true)); // Supplementary mode
+	            PrintWriter out = new PrintWriter(new FileWriter("src/logFiles/LoggerFile.txt", true)); // Supplementary mode
 	            out.println(logstring);
 	            out.close();
 				ReportGenerator.getInstance().generateReport();
