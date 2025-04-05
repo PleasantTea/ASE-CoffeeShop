@@ -51,16 +51,16 @@ public class Main {
             StartGUI startGUI = new StartGUI();
             StateDisplayGUI stateGUI = new StateDisplayGUI();
 
-            // 获取屏幕尺寸
+            // Get screen size
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int screenWidth = screenSize.width;
             int screenHeight = screenSize.height;
 
-            // 设置 CoffeeShopGUI 在屏幕左侧            
+            // Set startGUI on the left side of the screen            
             startGUI.setLocation(100, (screenHeight - startGUI.getHeight()) / 2);
             startGUI.setVisible(true);
 
-            // 设置 StateDisplayGUI 在屏幕右侧
+            // Set stateGUI on the right side of the screen
             stateGUI.setLocation(screenWidth - stateGUI.getWidth() - 100, (screenHeight - stateGUI.getHeight()) / 2);
             stateGUI.setVisible(true);
 
