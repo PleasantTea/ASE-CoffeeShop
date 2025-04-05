@@ -19,8 +19,8 @@ import controller.QueueController;
 
 public class Main {
     // Data management
-    private static String menuFileName = "Menu.csv";
-    private static String ordersFileName = "Orders.csv";
+    private static String menuFileName = "ASE coffeeshop/src/Menu.csv";
+    private static String ordersFileName = "ASE coffeeshop/src/Orders.csv";
     private static MenuFileRead menuFileReader;
     private static OrdersFileRead ordersFileReader;
     private static CustomerQueue customerQueue;

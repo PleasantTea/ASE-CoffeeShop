@@ -118,7 +118,7 @@ public class Basket {
             clearBasket();
 
             // Write into CSV
-            String newOrdersFileName = "newOrders.csv";
+            String newOrdersFileName = "ASE coffeeshop/src/newOrders.csv";
             ordersFileRead.writeOrdersToCSV(newOrdersFileName);
             
             return "Order Confirmed";
