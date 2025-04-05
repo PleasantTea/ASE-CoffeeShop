@@ -28,6 +28,7 @@ public class Main {
     private static QueueController queueController;
 
     public static void main(String[] args) throws InvalidMenuFileReadException, InvalidOrdersFileReadException {
+        Locale.setDefault(Locale.ENGLISH); // Set the default language to English
         // Initialize file management
         menuFileReader = new MenuFileRead();
         ordersFileReader = new OrdersFileRead();
