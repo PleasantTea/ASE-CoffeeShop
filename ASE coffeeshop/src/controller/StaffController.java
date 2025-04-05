@@ -45,7 +45,7 @@ public class StaffController {
 
             //gui.setStaffText(staff.getStaffNumber(), "");
         } else {
-            JOptionPane.showMessageDialog(null, "No more employees to remove!");
+            JOptionPane.showMessageDialog(null, "Please do not remove the last staff.");
         }
     }
 

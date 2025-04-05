@@ -23,7 +23,7 @@ public class QueueController implements Runnable {
             updateQueueDisplay();
 
             try {
-                Thread.sleep(500); // 每 500ms 检查一次队列更新
+                Thread.sleep(500); // Check queue updates every 500ms
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -38,7 +38,7 @@ public class QueueController implements Runnable {
         StringBuilder inStoreSb = new StringBuilder();
         StringBuilder onlineSb = new StringBuilder();
 
-        // 普通队列
+        // Normal queue
         int regularQueueSize = customerQueue.getQueue().size();
         inStoreSb.append("There are ").append(regularQueueSize).append(" in-store customers waiting:\n\n");
         for (LinkedHashMap<Integer, Order> customerOrders : customerQueue.getQueue()) {
@@ -48,7 +48,7 @@ public class QueueController implements Runnable {
                     .append(" - ").append(customerOrders.size()).append(" items\n");
         }
 
-        // 优先队列
+        // Online queue
         int priorityQueueSize = customerQueue.getPriorityQueue().size();
         onlineSb.append("There are ").append(priorityQueueSize).append(" online customers waiting:\n\n");
         for (LinkedHashMap<Integer, Order> customerOrders : customerQueue.getPriorityQueue()) {
@@ -58,7 +58,7 @@ public class QueueController implements Runnable {
                     .append(" - ").append(customerOrders.size()).append(" items\n");
         }
 
-        // 更新 GUI
+        // Update GUI
         stateDisplayGUI.setQueueText(inStoreSb.toString());
         stateDisplayGUI.setOnlineQueueText(onlineSb.toString());
     }
