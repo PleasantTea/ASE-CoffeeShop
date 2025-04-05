@@ -68,10 +68,17 @@ public class Staff extends Thread {
             view.setStaffText(staffNumber, "");  // Clear Panel
             return;  // Terminate the thread
         }
+
+        
         
         activeStaffCount.incrementAndGet(); // +1 at thread startup
 
         while (true) {
+            if (isCancelled) {
+                logger.info("Staff " + staffNumber + " has been cancelled.");
+                view.setStaffText(staffNumber, "");
+                break;
+            }
             try {
                 currentCustomer = customerQueue.getNextCustomer();
 
