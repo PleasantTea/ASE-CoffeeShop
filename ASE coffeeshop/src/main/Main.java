@@ -8,6 +8,7 @@ import exception.InvalidOrdersFileReadException;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Locale;
 
 import javax.swing.SwingUtilities;
 import view.CoffeeShopGUI;
