@@ -1,8 +1,10 @@
 package fileRead;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -12,6 +14,7 @@ import main.MenuItem;
 public class MenuFileRead {
 	public static LinkedHashMap<String, MenuItem> menuItemsHashMap;
 	public static HashSet<String> distinctCategory;
+	public static InputStream data;
 	
 	//Delimiters used in the CSV file
 	private static final String COMMA_DELIMITER = ",";
@@ -22,8 +25,14 @@ public class MenuFileRead {
 		try {
 			// Initialise LinkedHashMap to store menu items.
 			menuItemsHashMap = new LinkedHashMap<>();
+			
 			// Reading CSV files.
-            br = new BufferedReader(new FileReader(fileName));
+			data = getClass().getResourceAsStream(fileName);
+			if (data == null) {
+			    throw new FileNotFoundException("Menu CSV file not found in classpath: " + fileName);
+			}
+            br = new BufferedReader(new InputStreamReader(data));
+            
             // Use Delimiter as COMMA
             String line = "";
             // Read to skip the header(first line).

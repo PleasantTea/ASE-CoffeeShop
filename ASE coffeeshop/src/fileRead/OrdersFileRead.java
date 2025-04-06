@@ -2,9 +2,11 @@ package fileRead;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import exception.InvalidOrdersFileReadException;
 import main.Order;
@@ -12,6 +14,7 @@ import main.Order;
 
 public class OrdersFileRead {
 	public static LinkedHashMap<Integer, Order> existingOrder;
+	public static InputStream data;
 	private static final String COMMA_DELIMITER = ",";
 	
 	// Read CSV file and store data into data structure
@@ -21,7 +24,12 @@ public class OrdersFileRead {
 		
 		try {
 		    existingOrder = new LinkedHashMap<>();
-            br = new BufferedReader(new FileReader(fileName));   // Reading the csv file
+		    
+		    data = getClass().getResourceAsStream(fileName);
+		    if (data == null) {
+		        throw new FileNotFoundException("Order CSV file not found in classpath: " + fileName);
+		    }
+            br = new BufferedReader(new InputStreamReader(data));   // Reading the csv file
             String line = "";   // Use Delimiter as COMMA
             // Read to skip the header
             if(br!=null) {
