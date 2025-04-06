@@ -8,10 +8,10 @@ import exception.InvalidOrdersFileReadException;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
 import java.util.Locale;
 
 import javax.swing.SwingUtilities;
-import view.CoffeeShopGUI;
 import view.StateDisplayGUI;
 import view.StartGUI;
 import controller.StaffController;
@@ -19,12 +19,11 @@ import controller.QueueController;
 
 public class Main {
     // Data management
-    private static String menuFileName = "ASE coffeeshop/src/Menu.csv";
-    private static String ordersFileName = "ASE coffeeshop/src/Orders.csv";
+    private static String menuFileName = "/Menu.csv";
+    private static String ordersFileName = "/Orders.csv";
     private static MenuFileRead menuFileReader;
     private static OrdersFileRead ordersFileReader;
     private static CustomerQueue customerQueue;
-    private static Basket basket;
 
     private static QueueController queueController;
 
@@ -39,15 +38,14 @@ public class Main {
         ordersFileReader.readCSVAndStoreData(ordersFileName);
         customerQueue.addExistingCustomer();
         
-        basket = new Basket();
+        // Create data storage directory if it doesn't exist
+        File generateDirFile = new File("dataFiles");
+        if (!generateDirFile.exists()) {
+        	generateDirFile.mkdir();
+        }
         
         // Launch GUI
-        //SwingUtilities.invokeLater(() -> new CoffeeShopGUI(menuFileReader, basket).setVisible(true));
         SwingUtilities.invokeLater(() -> {
-            //new CoffeeShopGUI(menuFileReader, basket).setVisible(true);
-            //new StateDisplayGUI();  // 这行是新加的
-            
-            //CoffeeShopGUI coffeeGUI = new CoffeeShopGUI(menuFileReader, basket, orderType, startGUI);
             StartGUI startGUI = new StartGUI();
             StateDisplayGUI stateGUI = new StateDisplayGUI();
 
