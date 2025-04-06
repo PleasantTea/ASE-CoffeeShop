@@ -1,0 +1,557 @@
+2025-04-06 01:34:50.354: Customer CUS1 added to queue with 3 orders.
+2025-04-06 01:34:50.36: Customer CUS2 added to queue with 5 orders.
+2025-04-06 01:34:50.36: Customer CUS3 added to queue with 4 orders.
+2025-04-06 01:34:50.36: Customer CUS4 added to queue with 1 orders.
+2025-04-06 01:34:50.36: Customer CUS5 added to queue with 3 orders.
+2025-04-06 01:34:50.36: Customer CUS6 added to queue with 3 orders.
+2025-04-06 01:34:50.36: Customer CUS7 added to queue with 8 orders.
+2025-04-06 01:34:50.36: Customer CUS8 added to queue with 1 orders.
+2025-04-06 01:34:50.91: Staff 1 is waiting for orders
+2025-04-06 01:34:50.912: Staff 2 is waiting for orders
+2025-04-06 01:34:54.823: Changed staff: 1 speed: 3
+2025-04-06 01:34:54.823: Changed staff: 2 speed: 3
+2025-04-06 01:34:54.873: Changed staff: 1 speed: 4
+2025-04-06 01:34:54.873: Changed staff: 2 speed: 4
+2025-04-06 01:34:55.0: Changed staff: 1 speed: 5
+2025-04-06 01:34:55.0: Changed staff: 2 speed: 5
+2025-04-06 01:34:55.287: Changed staff: 1 speed: 5
+2025-04-06 01:34:55.287: Changed staff: 2 speed: 5
+2025-04-06 01:34:56.911: Processing orders for Customer CUS1. Total orders: 3
+2025-04-06 01:34:56.912: Processing orders for Customer CUS2. Total orders: 5
+2025-04-06 01:34:56.913: Staff member 2 is Processing CUS2's order: 
+Lemonade
+Lemonade
+Lemonade
+Lemonade
+Lemonade
+
+Total: 40.0 (no discount)
+2025-04-06 01:34:56.913: Staff member 1 is Processing CUS1's order: 
+Classic Latte
+Black Tea
+Chocolate Mousse
+
+Total: 44.0 (with 10.0 discount)
+2025-04-06 01:34:58.188: Staff 3 is waiting for orders
+2025-04-06 01:34:58.188: Processing orders for Customer CUS3. Total orders: 4
+2025-04-06 01:34:58.189: Staff member 3 is Processing CUS3's order: 
+Caramel Macchiato
+Caramel Macchiato
+Tiramisu
+Tiramisu
+
+Total: 60.0 (no discount)
+2025-04-06 01:35:01.825: Staff member 2 Completed CUS2's order
+2025-04-06 01:35:02.752: Staff member 1 Completed CUS1's order
+2025-04-06 01:35:02.986: Staff member 3 Completed CUS3's order
+2025-04-06 01:35:03.325: Staff 2 is ready to take an order
+2025-04-06 01:35:03.325: Processing orders for Customer CUS4. Total orders: 1
+2025-04-06 01:35:03.325: Staff member 2 is Processing CUS4's order: 
+Flat White
+
+Total: 25.0 (no discount)
+2025-04-06 01:35:04.253: Staff 1 is ready to take an order
+2025-04-06 01:35:04.253: Processing orders for Customer CUS5. Total orders: 3
+2025-04-06 01:35:04.253: Staff member 1 is Processing CUS5's order: 
+Apple Juice
+Orange Juice
+Orange Juice
+
+Total: 36.0 (no discount)
+2025-04-06 01:35:04.5: Staff 3 is ready to take an order
+2025-04-06 01:35:04.5: Processing orders for Customer CUS6. Total orders: 3
+2025-04-06 01:35:04.5: Staff member 3 is Processing CUS6's order: 
+Oat Latte
+Coconut Latte
+Americano
+
+Total: 62.0 (no discount)
+2025-04-06 01:35:06.8: Staff member 1 Completed CUS5's order
+2025-04-06 01:35:08.301: Staff 1 is ready to take an order
+2025-04-06 01:35:08.301: Processing orders for Customer CUS7. Total orders: 8
+2025-04-06 01:35:08.301: Staff member 1 is Processing CUS7's order: 
+Green Tea
+Green Tea
+Green Tea
+Green Tea
+Mango mousse
+Mango mousse
+Mango mousse
+Mango mousse
+
+Total: 108.0 (with 12.0 discount)
+2025-04-06 01:35:14.871: Staff member 2 Completed CUS4's order
+2025-04-06 01:35:14.893: Staff member 1 Completed CUS7's order
+2025-04-06 01:35:15.266: Staff member 3 Completed CUS6's order
+2025-04-06 01:35:16.371: Staff 2 is ready to take an order
+2025-04-06 01:35:16.371: Processing orders for Customer CUS8. Total orders: 1
+2025-04-06 01:35:16.371: Staff member 2 is Processing CUS8's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 01:35:16.393: Staff 1 is ready to take an order
+2025-04-06 01:35:16.393: Customer queue is empty! Staff waiting...
+2025-04-06 01:35:16.771: Staff 3 has completed their final order and is now being removed.
+2025-04-06 01:35:21.394: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 01:35:21.394: No more customers, need to close.
+2025-04-06 01:35:26.622: Priority Customer CUS9 added to priority queue with 1 orders.
+2025-04-06 01:35:27.908: Staff member 2 Completed CUS8's order
+2025-04-06 01:35:29.419: Staff 2 is ready to take an order
+2025-04-06 01:35:29.419: Processing orders for Customer CUS9. Total orders: 1
+2025-04-06 01:35:29.419: Staff member 2 is Processing CUS9's order: 
+Lemonade
+
+Total: 8.0 (no discount)
+2025-04-06 01:35:34.067: Staff member 2 Completed CUS9's order
+2025-04-06 01:35:35.569: Staff 2 is ready to take an order
+2025-04-06 01:35:35.569: Customer queue is empty! Staff waiting...
+2025-04-06 01:35:40.584: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 01:35:40.584: No more customers, need to close.
+2025-04-06 01:35:40.584: All staff have finished their work. Writing log to file.
+
+2025-04-06 02:03:00.762: Customer CUS1 added to queue with 3 orders.
+2025-04-06 02:03:00.768: Customer CUS2 added to queue with 5 orders.
+2025-04-06 02:03:00.768: Customer CUS3 added to queue with 4 orders.
+2025-04-06 02:03:00.768: Customer CUS4 added to queue with 1 orders.
+2025-04-06 02:03:00.768: Customer CUS5 added to queue with 3 orders.
+2025-04-06 02:03:00.768: Customer CUS6 added to queue with 3 orders.
+2025-04-06 02:03:00.768: Customer CUS7 added to queue with 8 orders.
+2025-04-06 02:03:00.768: Customer CUS8 added to queue with 1 orders.
+2025-04-06 02:03:01.325: Staff 1 is waiting for orders
+2025-04-06 02:03:01.327: Staff 2 is waiting for orders
+2025-04-06 02:03:04.51: Changed staff: 1 speed: 3
+2025-04-06 02:03:04.51: Changed staff: 2 speed: 3
+2025-04-06 02:03:04.51: Changed staff: 1 speed: 4
+2025-04-06 02:03:04.51: Changed staff: 2 speed: 4
+2025-04-06 02:03:04.722: Changed staff: 1 speed: 5
+2025-04-06 02:03:04.722: Changed staff: 2 speed: 5
+2025-04-06 02:03:05.147: Changed staff: 1 speed: 5
+2025-04-06 02:03:05.147: Changed staff: 2 speed: 5
+2025-04-06 02:03:08.135: Staff 3 is waiting for orders
+2025-04-06 02:03:08.566: Processing orders for Customer CUS1. Total orders: 3
+2025-04-06 02:03:08.566: Processing orders for Customer CUS2. Total orders: 5
+2025-04-06 02:03:08.567: Processing orders for Customer CUS3. Total orders: 4
+2025-04-06 02:03:08.568: Staff member 2 is Processing CUS2's order: 
+Lemonade
+Lemonade
+Lemonade
+Lemonade
+Lemonade
+
+Total: 40.0 (no discount)
+2025-04-06 02:03:08.568: Staff member 1 is Processing CUS1's order: 
+Classic Latte
+Black Tea
+Chocolate Mousse
+
+Total: 44.0 (with 10.0 discount)
+2025-04-06 02:03:08.568: Staff member 3 is Processing CUS3's order: 
+Caramel Macchiato
+Caramel Macchiato
+Tiramisu
+Tiramisu
+
+Total: 60.0 (no discount)
+2025-04-06 02:03:12.637: Staff member 1 Completed CUS1's order
+2025-04-06 02:03:14.137: Staff 1 is ready to take an order
+2025-04-06 02:03:14.137: Processing orders for Customer CUS4. Total orders: 1
+2025-04-06 02:03:14.137: Staff member 1 is Processing CUS4's order: 
+Flat White
+
+Total: 25.0 (no discount)
+2025-04-06 02:03:14.453: Staff member 2 Completed CUS2's order
+2025-04-06 02:03:15.955: Staff 2 is ready to take an order
+2025-04-06 02:03:15.955: Processing orders for Customer CUS5. Total orders: 3
+2025-04-06 02:03:15.955: Staff member 2 is Processing CUS5's order: 
+Apple Juice
+Orange Juice
+Orange Juice
+
+Total: 36.0 (no discount)
+2025-04-06 02:03:18.73: Staff member 2 Completed CUS5's order
+2025-04-06 02:03:19.631: Staff member 1 Completed CUS4's order
+2025-04-06 02:03:20.231: Staff 2 is ready to take an order
+2025-04-06 02:03:20.231: Processing orders for Customer CUS6. Total orders: 3
+2025-04-06 02:03:20.231: Staff member 2 is Processing CUS6's order: 
+Oat Latte
+Coconut Latte
+Americano
+
+Total: 62.0 (no discount)
+2025-04-06 02:03:21.136: Staff 1 is ready to take an order
+2025-04-06 02:03:21.136: Processing orders for Customer CUS7. Total orders: 8
+2025-04-06 02:03:21.137: Staff member 1 is Processing CUS7's order: 
+Green Tea
+Green Tea
+Green Tea
+Green Tea
+Mango mousse
+Mango mousse
+Mango mousse
+Mango mousse
+
+Total: 108.0 (with 12.0 discount)
+2025-04-06 02:03:24.19: Staff member 3 Completed CUS3's order
+2025-04-06 02:03:24.266: Staff member 2 Completed CUS6's order
+2025-04-06 02:03:25.69: Staff 3 is ready to take an order
+2025-04-06 02:03:25.69: Processing orders for Customer CUS8. Total orders: 1
+2025-04-06 02:03:25.69: Staff member 3 is Processing CUS8's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 02:03:25.766: Staff 2 is ready to take an order
+2025-04-06 02:03:25.766: Customer queue is empty! Staff waiting...
+2025-04-06 02:03:30.065: Staff member 3 Completed CUS8's order
+2025-04-06 02:03:30.133: Staff member 1 Completed CUS7's order
+2025-04-06 02:03:30.767: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 02:03:30.767: No more customers, need to close.
+2025-04-06 02:03:31.567: Staff 3 is ready to take an order
+2025-04-06 02:03:31.567: Customer queue is empty! Staff waiting...
+2025-04-06 02:03:31.638: Staff 1 is ready to take an order
+2025-04-06 02:03:31.638: Customer queue is empty! Staff waiting...
+2025-04-06 02:03:36.573: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 02:03:36.573: No more customers, need to close.
+2025-04-06 02:03:36.651: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 02:03:36.651: No more customers, need to close.
+2025-04-06 02:03:36.651: All staff have finished their work. Writing log to file.
+
+2025-04-06 18:02:00.888: Customer CUS1 added to queue with 3 orders.
+2025-04-06 18:02:00.895: Customer CUS2 added to queue with 5 orders.
+2025-04-06 18:02:00.895: Customer CUS3 added to queue with 4 orders.
+2025-04-06 18:02:00.895: Customer CUS4 added to queue with 1 orders.
+2025-04-06 18:02:00.895: Customer CUS5 added to queue with 3 orders.
+2025-04-06 18:02:00.895: Customer CUS6 added to queue with 3 orders.
+2025-04-06 18:02:00.895: Customer CUS7 added to queue with 8 orders.
+2025-04-06 18:02:00.895: Customer CUS8 added to queue with 1 orders.
+2025-04-06 18:02:01.482: Staff 1 is waiting for orders
+2025-04-06 18:02:01.484: Staff 2 is waiting for orders
+2025-04-06 18:02:07.446: Changed staff: 1 speed: 3
+2025-04-06 18:02:07.446: Changed staff: 2 speed: 3
+2025-04-06 18:02:07.675: Changed staff: 1 speed: 2
+2025-04-06 18:02:07.676: Changed staff: 2 speed: 2
+2025-04-06 18:02:08.685: Changed staff: 1 speed: 2
+2025-04-06 18:02:08.685: Changed staff: 2 speed: 2
+2025-04-06 18:02:10.323: Staff 3 is waiting for orders
+2025-04-06 18:02:11.148: Processing orders for Customer CUS1. Total orders: 3
+2025-04-06 18:02:11.148: Processing orders for Customer CUS2. Total orders: 5
+2025-04-06 18:02:11.149: Processing orders for Customer CUS3. Total orders: 4
+2025-04-06 18:02:11.15: Staff member 2 is Processing CUS2's order: 
+Lemonade
+Lemonade
+Lemonade
+Lemonade
+Lemonade
+
+Total: 40.0 (no discount)
+2025-04-06 18:02:11.15: Staff member 3 is Processing CUS3's order: 
+Caramel Macchiato
+Caramel Macchiato
+Tiramisu
+Tiramisu
+
+Total: 60.0 (no discount)
+2025-04-06 18:02:11.15: Staff member 1 is Processing CUS1's order: 
+Classic Latte
+Black Tea
+Chocolate Mousse
+
+Total: 44.0 (with 10.0 discount)
+2025-04-06 18:02:15.337: Staff member 3 Completed CUS3's order
+2025-04-06 18:02:16.838: Staff 3 is ready to take an order
+2025-04-06 18:02:16.838: Processing orders for Customer CUS4. Total orders: 1
+2025-04-06 18:02:16.838: Staff member 3 is Processing CUS4's order: 
+Flat White
+
+Total: 25.0 (no discount)
+2025-04-06 18:02:22.03: Customer CUS9 added to queue with 1 orders.
+2025-04-06 18:02:24.716: Staff member 1 Completed CUS1's order
+2025-04-06 18:02:26.219: Staff 1 is ready to take an order
+2025-04-06 18:02:26.219: Processing orders for Customer CUS5. Total orders: 3
+2025-04-06 18:02:26.219: Staff member 1 is Processing CUS5's order: 
+Apple Juice
+Orange Juice
+Orange Juice
+
+Total: 36.0 (no discount)
+2025-04-06 18:02:28.865: Customer CUS10 added to queue with 1 orders.
+2025-04-06 18:02:31.298: Staff member 3 Completed CUS4's order
+2025-04-06 18:02:31.563: Customer CUS11 added to queue with 1 orders.
+2025-04-06 18:02:32.801: Staff 3 is ready to take an order
+2025-04-06 18:02:32.801: Processing orders for Customer CUS6. Total orders: 3
+2025-04-06 18:02:32.801: Staff member 3 is Processing CUS6's order: 
+Oat Latte
+Coconut Latte
+Americano
+
+Total: 62.0 (no discount)
+2025-04-06 18:02:33.472: Staff member 1 Completed CUS5's order
+2025-04-06 18:02:34.707: Customer CUS12 added to queue with 1 orders.
+2025-04-06 18:02:34.973: Staff 1 is ready to take an order
+2025-04-06 18:02:34.973: Processing orders for Customer CUS7. Total orders: 8
+2025-04-06 18:02:34.973: Staff member 1 is Processing CUS7's order: 
+Green Tea
+Green Tea
+Green Tea
+Green Tea
+Mango mousse
+Mango mousse
+Mango mousse
+Mango mousse
+
+Total: 108.0 (with 12.0 discount)
+2025-04-06 18:02:37.453: Customer CUS13 added to queue with 1 orders.
+2025-04-06 18:02:39.263: Staff member 2 Completed CUS2's order
+2025-04-06 18:02:40.765: Staff 2 is ready to take an order
+2025-04-06 18:02:40.765: Processing orders for Customer CUS8. Total orders: 1
+2025-04-06 18:02:40.765: Staff member 2 is Processing CUS8's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:02:42.669: Staff member 3 Completed CUS6's order
+2025-04-06 18:02:44.169: Staff 3 has completed their final order and is now being removed.
+2025-04-06 18:02:52.89: Staff member 1 Completed CUS7's order
+2025-04-06 18:02:53.022: Customer CUS14 added to queue with 1 orders.
+2025-04-06 18:02:54.39: Staff 1 is ready to take an order
+2025-04-06 18:02:54.39: Processing orders for Customer CUS9. Total orders: 1
+2025-04-06 18:02:54.39: Staff member 1 is Processing CUS9's order: 
+Classic Latte
+
+Total: 24.0 (no discount)
+2025-04-06 18:02:55.381: Customer CUS15 added to queue with 1 orders.
+2025-04-06 18:02:57.789: Customer CUS16 added to queue with 1 orders.
+2025-04-06 18:02:59.896: Customer CUS17 added to queue with 1 orders.
+2025-04-06 18:03:00.795: Staff member 2 Completed CUS8's order
+2025-04-06 18:03:01.529: Staff member 1 Completed CUS9's order
+2025-04-06 18:03:01.962: Customer CUS18 added to queue with 1 orders.
+2025-04-06 18:03:02.295: Staff 2 has completed their final order and is now being removed.
+2025-04-06 18:03:03.042: Staff 1 is ready to take an order
+2025-04-06 18:03:03.042: Processing orders for Customer CUS10. Total orders: 1
+2025-04-06 18:03:03.042: Staff member 1 is Processing CUS10's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:03:04.564: Customer CUS19 added to queue with 1 orders.
+2025-04-06 18:03:06.241: Changed staff: 1 speed: 2
+2025-04-06 18:03:06.348: Changed staff: 1 speed: 1
+2025-04-06 18:03:06.854: Changed staff: 1 speed: 1
+2025-04-06 18:03:08.471: Customer CUS20 added to queue with 1 orders.
+2025-04-06 18:03:10.798: Customer CUS21 added to queue with 1 orders.
+2025-04-06 18:03:16.914: Customer CUS22 added to queue with 1 orders.
+2025-04-06 18:03:19.58: Staff member 1 Completed CUS10's order
+2025-04-06 18:03:19.592: Customer CUS23 added to queue with 1 orders.
+2025-04-06 18:03:21.083: Staff 1 is ready to take an order
+2025-04-06 18:03:21.083: Processing orders for Customer CUS11. Total orders: 1
+2025-04-06 18:03:21.083: Staff member 1 is Processing CUS11's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:03:22.592: Customer CUS24 added to queue with 1 orders.
+2025-04-06 18:03:24.739: Customer CUS25 added to queue with 1 orders.
+2025-04-06 18:03:28.616: Customer CUS26 added to queue with 1 orders.
+2025-04-06 18:03:40.784: Priority Customer CUS27 added to priority queue with 1 orders.
+2025-04-06 18:03:43.703: Priority Customer CUS28 added to priority queue with 1 orders.
+2025-04-06 18:03:50.307: Priority Customer CUS29 added to priority queue with 1 orders.
+2025-04-06 18:03:52.82: Priority Customer CUS30 added to priority queue with 1 orders.
+2025-04-06 18:03:54.827: Priority Customer CUS31 added to priority queue with 1 orders.
+2025-04-06 18:03:56.193: Staff member 1 Completed CUS11's order
+2025-04-06 18:03:57.704: Staff 1 is ready to take an order
+2025-04-06 18:03:57.704: Processing orders for Customer CUS27. Total orders: 1
+2025-04-06 18:03:57.704: Staff member 1 is Processing CUS27's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:03:58.052: Priority Customer CUS32 added to priority queue with 1 orders.
+2025-04-06 18:04:09.931: Customer queue is full! Order rejected.
+2025-04-06 18:04:13.329: Customer queue is full! Order rejected.
+2025-04-06 18:04:19.937: Changed staff: 1 speed: 1
+2025-04-06 18:04:19.938: Changed staff: 1 speed: 2
+2025-04-06 18:04:20.036: Changed staff: 1 speed: 2
+2025-04-06 18:04:21.212: Changed staff: 1 speed: 2
+2025-04-06 18:04:21.68: Changed staff: 1 speed: 3
+2025-04-06 18:04:23.651: Changed staff: 1 speed: 4
+2025-04-06 18:04:23.945: Changed staff: 1 speed: 5
+2025-04-06 18:04:24.564: Changed staff: 1 speed: 5
+2025-04-06 18:04:30.253: Staff 2 is waiting for orders
+2025-04-06 18:04:30.253: Processing orders for Customer CUS28. Total orders: 1
+2025-04-06 18:04:30.254: Staff member 2 is Processing CUS28's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:04:30.959: Staff 3 is waiting for orders
+2025-04-06 18:04:30.959: Processing orders for Customer CUS29. Total orders: 1
+2025-04-06 18:04:30.959: Staff member 3 is Processing CUS29's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:04:31.26: Staff member 1 Completed CUS27's order
+2025-04-06 18:04:32.462: Priority Customer CUS33 added to priority queue with 3 orders.
+2025-04-06 18:04:32.761: Staff 1 is ready to take an order
+2025-04-06 18:04:32.761: Processing orders for Customer CUS30. Total orders: 1
+2025-04-06 18:04:32.761: Staff member 1 is Processing CUS30's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:04:40.147: Priority Customer CUS34 added to priority queue with 1 orders.
+2025-04-06 18:04:42.139: Staff member 1 Completed CUS30's order
+2025-04-06 18:04:43.641: Staff 1 is ready to take an order
+2025-04-06 18:04:43.641: Processing orders for Customer CUS31. Total orders: 1
+2025-04-06 18:04:43.641: Staff member 1 is Processing CUS31's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:04:46.654: Staff member 1 Completed CUS31's order
+2025-04-06 18:04:48.154: Staff 1 is ready to take an order
+2025-04-06 18:04:48.154: Processing orders for Customer CUS32. Total orders: 1
+2025-04-06 18:04:48.154: Staff member 1 is Processing CUS32's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:04:49.109: Staff member 2 Completed CUS28's order
+2025-04-06 18:04:50.61: Staff 2 is ready to take an order
+2025-04-06 18:04:50.61: Processing orders for Customer CUS33. Total orders: 3
+2025-04-06 18:04:50.61: Staff member 2 is Processing CUS33's order: 
+Orange Juice
+Ice Cream
+Flat White
+
+Total: 42.0 (with 10.0 discount)
+2025-04-06 18:04:50.642: Staff member 3 Completed CUS29's order
+2025-04-06 18:04:51.674: Staff member 1 Completed CUS32's order
+2025-04-06 18:04:52.143: Staff 3 is ready to take an order
+2025-04-06 18:04:52.143: Processing orders for Customer CUS34. Total orders: 1
+2025-04-06 18:04:52.143: Staff member 3 is Processing CUS34's order: 
+Flat White
+
+Total: 25.0 (no discount)
+2025-04-06 18:04:53.174: Staff 1 is ready to take an order
+2025-04-06 18:04:53.174: Processing orders for Customer CUS12. Total orders: 1
+2025-04-06 18:04:53.174: Staff member 1 is Processing CUS12's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:04:53.317: Priority Customer CUS35 added to priority queue with 4 orders.
+2025-04-06 18:04:57.771: Staff member 3 Completed CUS34's order
+2025-04-06 18:04:59.272: Staff 3 is ready to take an order
+2025-04-06 18:04:59.272: Processing orders for Customer CUS35. Total orders: 4
+2025-04-06 18:04:59.272: Staff member 3 is Processing CUS35's order: 
+Flat White
+Flat White
+Flat White
+Flat White
+
+Total: 90.0 (with 10.0 discount)
+2025-04-06 18:05:03.012: Staff member 1 Completed CUS12's order
+2025-04-06 18:05:03.038: Staff member 2 Completed CUS33's order
+2025-04-06 18:05:04.512: Staff 1 is ready to take an order
+2025-04-06 18:05:04.512: Processing orders for Customer CUS13. Total orders: 1
+2025-04-06 18:05:04.512: Staff member 1 is Processing CUS13's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:04.54: Staff 2 is ready to take an order
+2025-04-06 18:05:04.54: Processing orders for Customer CUS14. Total orders: 1
+2025-04-06 18:05:04.54: Staff member 2 is Processing CUS14's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:06.407: Staff member 3 Completed CUS35's order
+2025-04-06 18:05:07.908: Staff 3 is ready to take an order
+2025-04-06 18:05:07.908: Processing orders for Customer CUS15. Total orders: 1
+2025-04-06 18:05:07.908: Staff member 3 is Processing CUS15's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:09.281: Staff member 1 Completed CUS13's order
+2025-04-06 18:05:10.783: Staff 1 is ready to take an order
+2025-04-06 18:05:10.783: Processing orders for Customer CUS16. Total orders: 1
+2025-04-06 18:05:10.783: Staff member 1 is Processing CUS16's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:14.434: Staff member 1 Completed CUS16's order
+2025-04-06 18:05:15.934: Staff 1 is ready to take an order
+2025-04-06 18:05:15.934: Processing orders for Customer CUS17. Total orders: 1
+2025-04-06 18:05:15.934: Staff member 1 is Processing CUS17's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:19.813: Staff member 3 Completed CUS15's order
+2025-04-06 18:05:20.825: Staff member 1 Completed CUS17's order
+2025-04-06 18:05:21.314: Staff 3 is ready to take an order
+2025-04-06 18:05:21.314: Processing orders for Customer CUS18. Total orders: 1
+2025-04-06 18:05:21.314: Staff member 3 is Processing CUS18's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:22.326: Staff 1 is ready to take an order
+2025-04-06 18:05:22.326: Processing orders for Customer CUS19. Total orders: 1
+2025-04-06 18:05:22.326: Staff member 1 is Processing CUS19's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:22.845: Staff member 2 Completed CUS14's order
+2025-04-06 18:05:24.346: Staff 2 is ready to take an order
+2025-04-06 18:05:24.346: Processing orders for Customer CUS20. Total orders: 1
+2025-04-06 18:05:24.346: Staff member 2 is Processing CUS20's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:28.988: Staff member 1 Completed CUS19's order
+2025-04-06 18:05:30.49: Staff 1 is ready to take an order
+2025-04-06 18:05:30.49: Processing orders for Customer CUS21. Total orders: 1
+2025-04-06 18:05:30.49: Staff member 1 is Processing CUS21's order: 
+Mocha
+
+Total: 23.0 (no discount)
+2025-04-06 18:05:30.861: Staff member 3 Completed CUS18's order
+2025-04-06 18:05:32.362: Staff 3 is ready to take an order
+2025-04-06 18:05:32.362: Processing orders for Customer CUS22. Total orders: 1
+2025-04-06 18:05:32.362: Staff member 3 is Processing CUS22's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:05:39.633: Staff member 1 Completed CUS21's order
+2025-04-06 18:05:41.135: Staff 1 is ready to take an order
+2025-04-06 18:05:41.135: Processing orders for Customer CUS23. Total orders: 1
+2025-04-06 18:05:41.136: Staff member 1 is Processing CUS23's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:05:44.336: Staff member 2 Completed CUS20's order
+2025-04-06 18:05:45.473: Staff member 1 Completed CUS23's order
+2025-04-06 18:05:45.837: Staff 2 is ready to take an order
+2025-04-06 18:05:45.837: Processing orders for Customer CUS24. Total orders: 1
+2025-04-06 18:05:45.837: Staff member 2 is Processing CUS24's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:05:46.974: Staff 1 is ready to take an order
+2025-04-06 18:05:46.974: Processing orders for Customer CUS25. Total orders: 1
+2025-04-06 18:05:46.974: Staff member 1 is Processing CUS25's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:05:48.287: Staff member 3 Completed CUS22's order
+2025-04-06 18:05:49.787: Staff 3 is ready to take an order
+2025-04-06 18:05:49.787: Processing orders for Customer CUS26. Total orders: 1
+2025-04-06 18:05:49.787: Staff member 3 is Processing CUS26's order: 
+Orange Juice
+
+Total: 12.0 (no discount)
+2025-04-06 18:05:54.791: Staff member 3 Completed CUS26's order
+2025-04-06 18:05:56.033: Staff member 1 Completed CUS25's order
+2025-04-06 18:05:56.291: Staff 3 is ready to take an order
+2025-04-06 18:05:56.291: Customer queue is empty! Staff waiting...
+2025-04-06 18:05:57.534: Staff 1 is ready to take an order
+2025-04-06 18:05:57.534: Customer queue is empty! Staff waiting...
+2025-04-06 18:06:00.495: Staff member 2 Completed CUS24's order
+2025-04-06 18:06:01.292: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 18:06:01.292: No more customers, need to close.
+2025-04-06 18:06:02.008: Staff 2 is ready to take an order
+2025-04-06 18:06:02.008: Customer queue is empty! Staff waiting...
+2025-04-06 18:06:02.534: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 18:06:02.534: No more customers, need to close.
+2025-04-06 18:06:07.011: Customer queue is still empty after waiting. Staff stops waiting.
+2025-04-06 18:06:07.011: No more customers, need to close.
+2025-04-06 18:06:07.011: All staff have finished their work. Writing log to file.
+
