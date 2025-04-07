@@ -15,7 +15,6 @@ import javax.swing.SwingUtilities;
 import view.StateDisplayGUI;
 import view.StartGUI;
 import controller.StaffController;
-import controller.QueueController;
 
 public class Main {
     // Data management
@@ -24,8 +23,6 @@ public class Main {
     private static MenuFileRead menuFileReader;
     private static OrdersFileRead ordersFileReader;
     private static CustomerQueue customerQueue;
-
-    private static QueueController queueController;
 
     public static void main(String[] args) throws InvalidMenuFileReadException, InvalidOrdersFileReadException {
         Locale.setDefault(Locale.ENGLISH); // Set the default language to English
@@ -62,8 +59,6 @@ public class Main {
             stateGUI.setLocation(screenWidth - stateGUI.getWidth() - 100, (screenHeight - stateGUI.getHeight()) / 2);
             stateGUI.setVisible(true);
 
-            queueController = new QueueController(customerQueue, stateGUI);
-            new Thread(queueController).start();
 
             StaffController staffController = new StaffController(customerQueue, stateGUI);
             staffController.startInitialStaff();
