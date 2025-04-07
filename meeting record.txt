@@ -1,0 +1,73 @@
+**Project name: Coffee store simulation system**  
+**Agile development cycle: three iterations**
+
+Iteration 1: Core functionality development phase  
+
+Meeting Objective:  
+- Clarify basic requirements based on project requirements  
+- Formulate core module division of labor  
+- Setting delivery targets for the first phase  
+
+Summary of meeting minutes:  
+-Jiawei Xu: responsible for the waiter thread framework and order processing function, implement the queue processing mechanism,;  
+-ZiHan Wang: responsible for building the customer queue logic to design the initial order reading mechanism to ensure that orders can gradually enter the queue when the simulation starts;  
+-BoHan Yu: develop the basic GUI interface to display customer queue and waiter status information;  
+-Fan Xu: responsible for log files
+- **Team Consensus**:
+  - All orders must have processing delays (simulated by threads) and logs should be recorded after processing is completed;
+  - GUI should visualize customer queue and staff activity status;
+  - Reports are automatically generated when the queue is emptied and the program exits.
+
+Meeting results:  
+- Completion of the core content of the simulation system;  
+- The system can automatically read orders, queue processing, and record logs and display progress;  
+- Preliminary realization of multi-threading and GUI collaborative work.
+
+---
+Problems identified in the meeting:
+Problems with the judgment condition when ending the program
+
+Iteration II: Additional Functions and Enhancement Modules  
+
+Meeting Objective:  
+- Discuss project extension requirements  
+- Clarify who is responsible for each enhancement  
+- Develop a plan for runtime interactions  
+
+Summary of meeting notes:  
+- BoHan Yu : added simulation speed and staff number adjustment function;  
+- Fan Xu: modified the logic problem of threads and the condition of ending the program, collaborated to complete the producer-consumer model.
+- Wang Zihan: add the priority queue for ordering online; introduce the producer-consumer model, set the maximum queue length and handle the exceeding requests;
+- Jiawei Xu: add order type selection GUI, write priority queue to GUI;  
+  
+Problems identified in the meeting:  
+  - The GUI button is not responsive when the queue is full;
+  - Orders continue to be added after employees are removed;
+  - The program exits abnormally after all employees are removed.
+  - jar file can not be exported
+  - GUI does not apply the observer pattern
+
+Session results:  
+- Initial implementation and integration of all functional code;
+- Priority queues, speed regulation and dynamic add/remove components were introduced;
+- Exposed multiple synchronization issues and exceptions, laying the groundwork for iteration three.
+
+-----
+
+Iteration III: Bug Fixes and System Stabilization  
+
+Meeting Objective:  
+- Discuss issues discovered after integration  
+- Assign bug fixing tasks  
+- Ultimately optimize system stability and user experience  
+
+Summary of meeting notes:  
+- Zihan Wang: use throw exception instead of wait() when the queue is full, optimize the GUI response; modify the file path and reading method to generate jar files.  
+- Bohan Yu: refactor the employee management logic, fix the problem that there are still orders after employee removal;  
+- Fan Xu: optimize the problem of employee deletion and add observer pattern;  
+- Jiawei Xu: Coordinated and completed observer pattern.
+
+Meeting results:  
+- All functions are running stably, and the system can process normally under all boundary conditions;  
+- The GUI responds well and all buttons are available in different states;  
+- Log records are complete, making it easy to track each step of the event.
