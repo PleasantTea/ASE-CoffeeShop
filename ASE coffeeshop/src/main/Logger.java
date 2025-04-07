@@ -7,9 +7,7 @@ import java.sql.Timestamp;
 public class Logger {
 	 private static volatile Logger instance;
 	    private static Object mutex = new Object();
-	    String logstring = "";
-
-	    
+	    private Logger() { } // Private constructor
 	    /**
 	     * Constructor of the logger class. Creates a new singleton instance of logger only if there is no other active logger.
 	     * @return returns the logger singleton.
@@ -29,28 +27,28 @@ public class Logger {
 	     * Adds messages passed to it to a string in the logger.
 	     * @param message Is the message passed to the logger.
 	     */
-	    
+	    private final StringBuilder logBuilder = new StringBuilder();
 	    public void info(String message) {
 	        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 	        String a = timestamp + ": " + message + "\n";
 	        System.out.println(a);
-	        logstring += a;
+	        logBuilder.append(a);
 	    }
 	  
 
 	    /**
-	     * Prints the messages stored in the log to the Log file. 
+	     * Prints the messages stored in the log to the Log file.
 	     */
 	    public void printFile() {
 	        try {
 	            System.out.println("PRINTED");
 	            PrintWriter out = new PrintWriter(new FileWriter("dataFiles/LoggerFile.txt", true)); // Supplementary mode
-	            out.println(logstring);
+	            out.println(logBuilder.toString());  
 	            out.close();
-				ReportGenerator.getInstance().generateReport();
+				ReportGenerator.getInstance().generateReport(); // Used to generate report
 				info("Report generated successfully!");
 				info("CoffeeShop APP is closed.");
-	            System.exit(0);
+	            System.exit(0); // exit program
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
