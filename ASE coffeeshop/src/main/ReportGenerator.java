@@ -103,9 +103,9 @@ public class ReportGenerator {
                 String itemId = itemList.get(0);    // ITEM_ID
                 String itemName = itemList.get(1);  // ITEM_NAME
                 String category = itemList.get(2);  // CATEGORY
-                Integer quantitySold = "null".equals(itemList.get(3)) ? 0 : Integer.parseInt(itemList.get(3));//QUANTITY_SOLD
+                Integer quantitySold = "null".equals(itemList.get(3)) ? 0 : Integer.parseInt(itemList.get(3));    //QUANTITY_SOLD
                 Float itemPrice = Float.parseFloat(itemList.get(4));
-                totalIncomePerItem = quantitySold * itemPrice;//COST
+                totalIncomePerItem = quantitySold * itemPrice;    //COST
 
                 // Write row data to CSV
                 fileWriter.append(itemId);
