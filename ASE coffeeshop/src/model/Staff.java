@@ -1,7 +1,6 @@
 package model;
 
 import java.util.LinkedHashMap;
-import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,7 +16,7 @@ public class Staff extends Thread {
     private String currentTask;
     private boolean isCancelled = false;
     private boolean shouldTerminateAfterCurrentOrder = false;
-    private CustomerQueue customerQueue = CustomerQueue.getInstance();
+    private CustomerQueue customerQueue = CustomerQueue.getInstance(); //client queue
     private LinkedHashMap<Integer, Order> currentCustomer;
     
     private StateDisplayGUI view;
@@ -60,7 +59,6 @@ public class Staff extends Thread {
                 try {
                     lock.wait();  // Waiting for the user to click the start button
                 } catch (InterruptedException e) {
-                    //Thread.currentThread().interrupt();
                 	e.printStackTrace();
                 }
             }
@@ -85,7 +83,7 @@ public class Staff extends Thread {
             }
             try {
                 currentCustomer = customerQueue.getNextCustomer();
-
+                // If currentCustomer is null, exit the loop.
                 if (currentCustomer == null) {
                     logger.info("No more customers, need to close.");
                     break; // Exit thread
@@ -97,8 +95,11 @@ public class Staff extends Thread {
                 Float discount = customerQueue.getCurrentCustomerDiscount(currentCustomer);
                 String discountText = (discount == 0) ? " (no discount)" : " (with " + discount + " discount)";
                 total -= discount;
-
+                
+                // Iterate through all the orders of the customer
                 for (Order order : currentCustomer.values()) {
+                	
+                	// Get the information about the items in the order and add it to orderDetails.
                     orderDetails.append(order.getItemName()).append("\n");
                 }
 
@@ -123,7 +124,6 @@ public class Staff extends Thread {
                 view.setStaffText(staffNumber, currentTask);
                 
                 try {
-                    //result = random.nextInt(high - low) + low;
                     Thread.sleep(1500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -174,8 +174,6 @@ public class Staff extends Thread {
      * This method display staff that has finished the job
      */
     public void finish() {
-        //logger.info("Staff finished: " + staffNumber);
-        //this.isCancelled = true; 
     	if (currentCustomer != null) {
             String customerID = currentCustomer.values().iterator().next().getCustomerID();
             JOptionPane.showMessageDialog(null, "Staff " + staffNumber + " is currently processing customer " + customerID + "'s order. \nWill remove after completing it.");
