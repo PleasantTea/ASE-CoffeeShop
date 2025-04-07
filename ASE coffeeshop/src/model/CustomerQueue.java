@@ -1,6 +1,7 @@
 package model;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import fileRead.OrdersFileRead;
 import main.Basket;
 import main.MenuItem;
 import main.Order;
+import observer.QueueObserver;
 import main.Logger;
 
 /**
@@ -23,6 +25,7 @@ public class CustomerQueue {
     private final LinkedList<LinkedHashMap<Integer, Order>> priorityQueue;
     private static final int MAX_CAPACITY = 20;  // Limit the maximum number of customers
     private static Logger logger = Logger.getInstance();
+    private final List<QueueObserver> observers = new ArrayList<>();
 
     // Constructor function
     private CustomerQueue() {
@@ -37,6 +40,17 @@ public class CustomerQueue {
         }
         return instance;
     }
+    
+    public void registerObserver(QueueObserver observer) {
+        observers.add(observer);
+    }
+
+    public void notifyObservers() {
+        for (QueueObserver observer : observers) {
+            observer.updateQueueDisplay();
+        }
+    }
+    
     
     /**
 	 * Get the LinkedList of whole orders
@@ -91,7 +105,7 @@ public class CustomerQueue {
             
             logger.info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
         }
-
+        notifyObservers();
         notifyAll(); // Wake up waiting threads
     }
     
@@ -114,6 +128,7 @@ public class CustomerQueue {
         
         String customerID = customerOrders.values().iterator().next().getCustomerID();
         logger.info("Customer " + customerID + " added to queue with " + customerOrders.size() + " orders.");
+        notifyObservers();
         notifyAll();  // Wake up waiting threads
     }
     
@@ -136,6 +151,7 @@ public class CustomerQueue {
     	
     	String customerID = customerOrders.values().iterator().next().getCustomerID();
         logger.info("Priority Customer " + customerID + " added to priority queue with " + customerOrders.size() + " orders.");
+        notifyObservers();
         notifyAll(); // Wake up waiting threads
     }
 
@@ -174,6 +190,7 @@ public class CustomerQueue {
             // Recording logs
             logger.info("Processing orders for Customer " + customerID + ". Total orders: " + nextCustomer.size());
         }
+        notifyObservers();
         return nextCustomer;
     }
     
