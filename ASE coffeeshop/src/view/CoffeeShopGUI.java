@@ -2,21 +2,13 @@ package view;
 
 import fileRead.MenuFileRead;
 import main.Basket;
-import main.ReportGenerator;
-import main.DiscountRuler;
 import main.MenuItem;
-import main.Order;
-import fileRead.OrdersFileRead;
-import exception.InvalidMenuFileReadException;
-import exception.InvalidOrdersFileReadException;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -35,7 +27,6 @@ public class CoffeeShopGUI extends JFrame {
     private MenuFileRead menuFileReader;
     private Basket basket;
     private MenuItem currentListSelection;
-    private boolean isReportGenerated = false;
     private String orderType;
     private StartGUI startGUI; // Reference to StartGUI
 
@@ -163,15 +154,6 @@ public class CoffeeShopGUI extends JFrame {
 		panelForm.add(buttonCancel, p);
 		p.fill = GridBagConstraints.NONE;
 
-		/** REPORT BUTTON */
-        /* 
-		buttonReport = new JButton("     Show Report      ");
-		p.gridx = 3; 
-		p.gridy = 9;
-		p.insets = new Insets(0, 15, 0, 0);
-		panelForm.add(buttonReport, p);
-		p.insets = new Insets(0, 0, 0, 0); */
-
 		/**CONFIRM BUTTON*/
 		buttonConfirm = new JButton("    Confirm Order    ");
 		p.anchor = GridBagConstraints.LINE_START;
@@ -216,18 +198,6 @@ public class CoffeeShopGUI extends JFrame {
         });
         
         buttonConfirm.addActionListener(e -> {
-            /*if (!basket.getItems().isEmpty()) {
-                if ("online".equals(orderType)) {
-                    basket.confirmOrder(true);
-                } else {
-                	basket.confirmOrder(false);
-                }
-                JOptionPane.showMessageDialog(null, "Order Confirmed");
-                displayBasket();
-                setPrice();
-            } else {
-                JOptionPane.showMessageDialog(null, "Your basket is empty. Add items before confirming.");
-            }*/
             String confirmMessage;
             if ("online".equals(orderType)) {
                 confirmMessage = basket.confirmOrder(true);
@@ -245,14 +215,7 @@ public class CoffeeShopGUI extends JFrame {
             setPrice();
             JOptionPane.showMessageDialog(null, "Order has been successfully cancelled");
         });        
-        /* 
-        buttonReport.addActionListener(e -> {
-            ReportGenerator.getInstance().generateReport();
-            isReportGenerated = true; 
-            JOptionPane.showMessageDialog(null, "Report generated successfully!");
-        });*/
-
-        
+       
         buttonQuit.addActionListener(e -> {
             dispose();                      
             startGUI.setVisible(true);// Show the StartGUI again           
