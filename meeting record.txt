@@ -23,9 +23,10 @@ Meeting results:
 - The system can automatically read orders, queue processing, and record logs and display progress;  
 - Preliminary realization of multi-threading and GUI collaborative work.
 
----
 Problems identified in the meeting:
 Problems with the judgment condition when ending the program
+
+-----
 
 Iteration II: Additional Functions and Enhancement Modules  
 
