@@ -1,4 +1,4 @@
-# ASE CoffeeShop ☕️ Edinburgh CW Group 16
+# ASE CoffeeShop - Edinburgh CW Group 16 ☕️ 
 
 A Java-based simulation system for managing a coffee shop, including customer ordering, order processing by staff, real-time queue management, and discount strategies.
 
