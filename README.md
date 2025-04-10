@@ -1,6 +1,6 @@
-# ASE CoffeeShop ☕️
+# ASE CoffeeShop ☕️ Edinburgh CW Group 16
 
-A Java-based simulation system for managing a coffee shop. The system includes customer ordering, order processing by staff, real-time queue management, and discount strategies. Built following object-oriented principles and test-driven development.
+A Java-based simulation system for managing a coffee shop, including customer ordering, order processing by staff, real-time queue management, and discount strategies.
 
 ---
 
